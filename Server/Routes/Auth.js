@@ -31,4 +31,27 @@ router.post("/register", async (req, res) => {
   }
 }
 )
+
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+  
+    //checking for existing email
+    const user = await User.findOne({ username });
+    if (!user)
+      return res.status(400).json({ error: "Incorrect email or password." });
+  
+    //pw validation
+    const validPw = await bcrypt.compare(password, user.password);
+    if (!validPw)
+      return res.status(400).json({ error: "Incorrect email or password." });
+  
+    //create JWT
+    // const token = jwt.sign(
+    //   { _id: user._id, email: user.email },
+    //   process.env.SECRET_ACCESS_TOKEN
+    // );
+    // res.header('auth-token',token).send(token)
+  
+    res.status(201).json({ error: "", token });
+  });
 module.exports = router;
