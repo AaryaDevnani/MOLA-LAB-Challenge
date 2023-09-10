@@ -25,7 +25,7 @@ function NavBar() {
                 className="nav-links"
                 onClick={click ? handleClick : null}
                 >
-                Home
+                Publications
               </NavLink>
             </li>
             <li className="nav-item">
@@ -36,7 +36,7 @@ function NavBar() {
                 className="nav-links"
                 onClick={click ? handleClick : null}
                 >
-                About
+                Login
               </NavLink>
             </li>
             <li className="nav-item">
@@ -47,20 +47,10 @@ function NavBar() {
                 className="nav-links"
                 onClick={click ? handleClick : null}
                 >
-                Blog
+                Sign Up
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/contact"
-                activeClassName="active"
-                className="nav-links"
-                onClick={click ? handleClick : null}
-                >
-                Contact Us
-              </NavLink>
-            </li>
+          
           </ul>
           <div className="nav-icon" onClick={handleClick}>
             <i className={click ? "fa fa-times" : "fa fa-bars"}></i>
