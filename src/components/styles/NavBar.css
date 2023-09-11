@@ -1,6 +1,9 @@
 * {
 
   color: #0a0a0a !important;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left:5px;
 }
 
 
@@ -36,7 +39,7 @@
 }
 
 .nav-logo {
-  color: #f5b921;
+  color: #0a0a0a;
   align-items: left;
   /* margin-left: 20px; */
   /* cursor: pointer; */
@@ -53,8 +56,9 @@
 }
 
 .nav-links {
-  color: #c63201;
+  color: #0a0a0a;
   text-decoration: none;
+  font-weight: 400;
   /* text-decoration: underline; */
   padding: 0.5rem 1rem;
   height: 100%;

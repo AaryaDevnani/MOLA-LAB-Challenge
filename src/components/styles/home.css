@@ -1,8 +1,10 @@
 .gridStart{
-    margin-left: 20px!important;
+    margin-left: 40px!important;
+    margin-top: 10px;
 }
 .title{
     /* margin:5px; */
+    margin-left:15px;
     font-size: 30px;
     border-bottom: 1px solid black; 
     border-width: 100%;
