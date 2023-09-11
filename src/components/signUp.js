@@ -1,24 +1,50 @@
-import React, {useContext} from 'react'
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import UserContext from '../userContext';
-
+import React, { useContext, useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import UserContext from "../userContext";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 function SignUp() {
-  const { user, setUser, sendMail  } = useContext(UserContext)
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    severity: "",
+  });
+  const { user, setUser, sendMail } = useContext(UserContext);
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    await sendMail();
+    let res = await sendMail();
+    console.log("res", res);
+    if (res == 200) {
+      setToast({
+        open: true,
+        message: "Please check your email to set your password.",
+        severity: "success",
+      });
+    } else {
+      setToast({
+        open: false,
+        message: "Error.",
+        severity: "error",
+      });
+    }
   };
   const handleOnChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+  useEffect(() => {
+    console.log("Effect", toast);
+  }, [toast]);
 
   return (
     <div>
@@ -91,9 +117,26 @@ function SignUp() {
             </Button>
           </Box>
         </Box>
+        <Box sx={{ width: 500 }}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={toast.open}
+            autoHideDuration={6000}
+            key={"topcenter"}
+          >
+            <Alert
+              onClose={() => {
+                setToast({ open: false, message: "", severity: "" });
+              }}
+              severity={toast.severity}
+            >
+              {toast.message}
+            </Alert>
+          </Snackbar>
+        </Box>
       </Container>
     </div>
   );
 }
 
-export default SignUp
+export default SignUp;

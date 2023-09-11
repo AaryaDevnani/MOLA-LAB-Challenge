@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const PORT = 5000
+const PORT = 5000;
 
 mongoose.connect(process.env.DB_CONNECTION_STRING);
 

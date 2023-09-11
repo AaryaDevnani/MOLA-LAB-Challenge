@@ -18,7 +18,6 @@ const transporter = nodemailer.createTransport({
 //Handle Cors
 router.options("/mail", cors());
 
-
 //Email route to setup password
 router.post("/mail", async (req, res) => {
   res.appendHeader("Access-Control-Allow-Origin", "*");
@@ -62,7 +61,7 @@ router.post("/register", async (req, res) => {
   res.appendHeader("Access-Control-Allow-Origin", "*");
   const { token, password, isAdmin } = req.body;
   decoded = jwt.decode(token, process.env.SECRET_ACCESS_TOKEN);
-  console.log("decoded",decoded)
+  console.log("decoded", decoded);
   const emailExist = await User.findOne({ email: decoded.email });
   if (emailExist) {
     return res
@@ -84,7 +83,7 @@ router.post("/register", async (req, res) => {
   try {
     newUser = await user.save();
     res.status(201).json({ error: "" });
-    console.log("Password Set Successfully")
+    console.log("Password Set Successfully");
   } catch (error) {
     res.status(400).json({ error });
   }
