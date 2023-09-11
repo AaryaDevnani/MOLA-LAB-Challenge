@@ -21,8 +21,9 @@ export function UserProvider({ children }) {
   });
 
   const [userLoggedIn, setUserLoggedIn] = useState({
-    isLoggedIn: "",
+    isLoggedIn: false,
     isAdmin: false,
+    userData: {},
   });
 
   const sendMail = async () => {
@@ -91,6 +92,13 @@ export function UserProvider({ children }) {
     return { status: response.status, body: responseBody };
   };
 
+  const logout = async () => {
+    setUserLoggedIn({
+      isLoggedIn: false,
+      isAdmin: false,
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -105,6 +113,7 @@ export function UserProvider({ children }) {
         loginData,
         setLoginData,
         login,
+        logout,
       }}
     >
       {children}

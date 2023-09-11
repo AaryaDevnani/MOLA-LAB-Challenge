@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 function NavBar(props) {
-  const { userLoggedIn } = useContext(UserContext);
+  const { userLoggedIn, logout } = useContext(UserContext);
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -24,15 +24,6 @@ function NavBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-  let pages = ["Publications", "Login", "Signup"];
-  let adminPages = ["Publications", "Admin ", "Profile", "Logout"];
-  let userPages = ["Publications", "Profile", "Logout"];
-  let renderPages = [];
-  userLoggedIn.isAdmin === true
-    ? (renderPages = adminPages)
-    : userLoggedIn.isLoggedIn
-    ? (renderPages = userPages)
-    : (renderPages = pages);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -40,13 +31,46 @@ function NavBar(props) {
         <div>Morality and Language Lab</div>
       </Typography>
       <List>
-        {renderPages.map((page) => (
-          <ListItem key={page} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={page} sx={{ color: "#000" }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem key="Publications" disablePadding>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText primary="Publications" sx={{ color: "#000" }} />
+          </ListItemButton>
+        </ListItem>
+        {!userLoggedIn.isAdmin && !userLoggedIn.isLoggedin ? (
+          <>
+            <ListItem key="Login" disablePadding>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary="Login" sx={{ color: "#000" }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key="Signup" disablePadding>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary="Signup" sx={{ color: "#000" }} />
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            {userLoggedIn.isAdmin && (
+              <ListItem key="Admin" disablePadding>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText primary="Admin" sx={{ color: "#000" }} />
+                </ListItemButton>
+              </ListItem>
+            )}
+
+            <ListItem key="Profile" disablePadding>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary="Profile" sx={{ color: "#000" }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key="Logout" disablePadding>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary="Logout" sx={{ color: "#000" }} />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
       </List>
     </Box>
   );
@@ -80,7 +104,6 @@ function NavBar(props) {
             variant="h6"
             component="div"
             sx={{
-              // display: { xs: "block", sm: "block" },
               ml: "50px",
               fontSize: { lg: "30px", md: "20px", sm: "20px" },
             }}
@@ -106,20 +129,88 @@ function NavBar(props) {
               justifyContent: "flex-end",
             }}
           >
-            {renderPages.map((page) => (
-              <NavLink to={"/" + page} style={{ textDecoration: "none" }}>
+            <NavLink to={"/"} style={{ textDecoration: "none" }}>
+              <Button
+                key={"Publications"}
+                sx={{
+                  "&:hover": { backgroundColor: "#fff" },
+                  color: "#000",
+                  fontWeight: "1000",
+                }}
+              >
+                Publications
+              </Button>
+            </NavLink>
+            {userLoggedIn.isLoggedIn ? (
+              <>
+                {userLoggedIn.isAdmin && (
+                  <NavLink to={"/Admin"} style={{ textDecoration: "none" }}>
+                    <Button
+                      key="Admin"
+                      sx={{
+                        "&:hover": { backgroundColor: "#fff" },
+                        color: "#000",
+                        fontWeight: "1000",
+                      }}
+                    >
+                      Admin
+                    </Button>
+                  </NavLink>
+                )}
+                <NavLink to={"/Profile"} style={{ textDecoration: "none" }}>
+                  <Button
+                    key="Profile"
+                    sx={{
+                      "&:hover": { backgroundColor: "#fff" },
+                      color: "#000",
+                      fontWeight: "1000",
+                    }}
+                  >
+                    Profile
+                  </Button>
+                </NavLink>
                 <Button
-                  key={page}
+                  key="Logout"
                   sx={{
                     "&:hover": { backgroundColor: "#fff" },
                     color: "#000",
                     fontWeight: "1000",
+                    mr: "60px",
                   }}
+                  onClick={logout}
                 >
-                  {page}
+                  Logout
                 </Button>
-              </NavLink>
-            ))}
+              </>
+            ) : (
+              <>
+                <NavLink to={"/login"} style={{ textDecoration: "none" }}>
+                  <Button
+                    key="Login"
+                    sx={{
+                      "&:hover": { backgroundColor: "#fff" },
+                      color: "#000",
+                      fontWeight: "1000",
+                    }}
+                  >
+                    Login
+                  </Button>
+                </NavLink>
+                <NavLink to={"/signup"} style={{ textDecoration: "none" }}>
+                  <Button
+                    key="Signup"
+                    sx={{
+                      "&:hover": { backgroundColor: "#fff" },
+                      color: "#000",
+                      fontWeight: "1000",
+                      mr: "60px",
+                    }}
+                  >
+                    Signup
+                  </Button>
+                </NavLink>
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

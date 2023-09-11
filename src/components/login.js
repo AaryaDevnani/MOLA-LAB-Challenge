@@ -39,6 +39,7 @@ function Login() {
       setUserLoggedIn({
         isLoggedIn: true,
         isAdmin: res.body.isAdmin,
+        userData: res.body.user,
       });
       setToast({
         open: true,

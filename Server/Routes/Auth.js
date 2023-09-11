@@ -101,7 +101,7 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ error: "Incorrect email or password." });
   }
 
-  res.status(201).json({ error: "", isAdmin: user.isAdmin });
+  res.status(201).json({ error: "", isAdmin: user.isAdmin, user: user });
 });
 
 module.exports = router;
