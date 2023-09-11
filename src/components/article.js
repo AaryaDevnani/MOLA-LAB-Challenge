@@ -1,16 +1,17 @@
-import React from 'react'
-
-function Article() {
+import React from "react";
+import "./styles/article.css";
+function Article({ Title, Collaborators, Year, Journal, bib }) {
   return (
     <div>
-        <h1>Title</h1>
-        <p>List of Collaborators</p>
-        <p>Journal name</p>
-        <p>Bib</p>
-
+      <p className="article-title">{Title}</p>
+      <div className="article-meta">
+        {Collaborators}. {Title}. ({Year})<i> {Journal}</i>
+      </div>
+      <a href={bib} className="bib">
+        Bib
+      </a>
     </div>
-
-  )
+  );
 }
 
-export default Article
+export default Article;

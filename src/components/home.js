@@ -7,9 +7,9 @@ import PublicationsList from "./publicationsList";
 
 function home() {
   return (
-    <div>
-      <div  class="title">Publications</div>
-      <div class="gridStart">
+    <div className="homePage">
+      <div className="title">Publications</div>
+      <div className="gridStart">
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
@@ -17,10 +17,12 @@ function home() {
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
             <Grid xs={3}>
-              <FilterList />
+              <FilterList sx={{ position: "relative", overflow: "auto" }} />
             </Grid>
             <Grid div xs={9}>
-              <div><PublicationsList/></div>
+              <div>
+                <PublicationsList />
+              </div>
             </Grid>
           </Grid>
         </Box>

@@ -1,12 +1,15 @@
 .gridStart{
     margin-left: 40px!important;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 .title{
-    /* margin:5px; */
+
     margin-left:15px;
     font-size: 30px;
     border-bottom: 1px solid black; 
     border-width: 100%;
     padding-bottom: 10px;
+}
+.homePage{
+    margin: 0px 60px;
 }

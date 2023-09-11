@@ -15,12 +15,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//Handle Cors
-router.options("/mail", cors());
-
 //Email route to setup password
 router.post("/mail", async (req, res) => {
-  res.appendHeader("Access-Control-Allow-Origin", "*");
   const { firstName, lastName, email } = req.body;
   const emailExist = await User.findOne({ email });
   if (emailExist) {
@@ -58,7 +54,6 @@ router.post("/mail", async (req, res) => {
 
 //Register User route
 router.post("/register", async (req, res) => {
-  res.appendHeader("Access-Control-Allow-Origin", "*");
   const { token, password, isAdmin } = req.body;
   decoded = jwt.decode(token, process.env.SECRET_ACCESS_TOKEN);
   console.log("decoded", decoded);
@@ -88,7 +83,6 @@ router.post("/register", async (req, res) => {
     res.status(400).json({ error });
   }
 });
-router.options("/register", cors());
 
 //Login Route
 router.post("/login", async (req, res) => {
@@ -98,7 +92,6 @@ router.post("/login", async (req, res) => {
   const user = await User.findOne({ username });
   if (!user) {
     //for cors
-    res.appendHeader("Access-Control-Allow-Origin", "*");
     return res.status(400).json({ error: "Incorrect email or password." });
   }
 
@@ -106,7 +99,6 @@ router.post("/login", async (req, res) => {
   const validPw = await bcrypt.compare(password, user.password);
   if (!validPw) {
     //for cors
-    res.appendHeader("Access-Control-Allow-Origin", "*");
     return res.status(400).json({ error: "Incorrect email or password." });
   }
 
@@ -114,6 +106,5 @@ router.post("/login", async (req, res) => {
   res.appendHeader("Access-Control-Allow-Origin", "*");
   res.status(201).json({ error: "" });
 });
-router.options("/login", cors());
 
 module.exports = router;

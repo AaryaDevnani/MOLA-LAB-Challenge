@@ -73,6 +73,7 @@ function DrawerAppBar(props) {
             component="div"
             sx={{
               // display: { xs: "block", sm: "block" },
+              ml: "50px",
               fontSize: { lg: "30px", md: "20px", sm: "20px" },
             }}
           >
@@ -128,6 +129,7 @@ function DrawerAppBar(props) {
                   "&:hover": { backgroundColor: "#fff" },
                   color: "#000",
                   fontWeight: "1000",
+                  mr: "60px",
                 }}
               >
                 Signup
