@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import UserContext from "../userContext";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,13 +15,24 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-function DrawerAppBar(props) {
+function NavBar(props) {
+  const { userLoggedIn } = useContext(UserContext);
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+  let pages = ["Publications", "Login", "Signup"];
+  let adminPages = ["Publications", "Admin ", "Profile", "Logout"];
+  let userPages = ["Publications", "Profile", "Logout"];
+  let renderPages = [];
+  userLoggedIn.isAdmin === true
+    ? (renderPages = adminPages)
+    : userLoggedIn.isLoggedIn
+    ? (renderPages = userPages)
+    : (renderPages = pages);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -28,27 +40,23 @@ function DrawerAppBar(props) {
         <div>Morality and Language Lab</div>
       </Typography>
       <List>
-        <ListItem key="Publications" disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText primary="Publications" sx={{ color: "#000" }} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key="Login" disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText primary="Login" sx={{ color: "#000" }} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key="Signup" disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText primary="Signup" sx={{ color: "#000" }} />
-          </ListItemButton>
-        </ListItem>
+        {renderPages.map((page) => (
+          <ListItem key={page} disablePadding>
+            <ListItemButton sx={{ textAlign: "center" }}>
+              <ListItemText primary={page} sx={{ color: "#000" }} />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+  useEffect(() => {
+    console.log("Effect", userLoggedIn);
+  }, [userLoggedIn]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -98,43 +106,20 @@ function DrawerAppBar(props) {
               justifyContent: "flex-end",
             }}
           >
-            <NavLink to="/" style={{ textDecoration: "none" }}>
-              <Button
-                key="Publications"
-                sx={{
-                  "&:hover": { backgroundColor: "#fff" },
-                  color: "#000",
-                  fontWeight: "1000",
-                }}
-              >
-                Publications
-              </Button>
-            </NavLink>
-            <NavLink to="/login" style={{ textDecoration: "none" }}>
-              <Button
-                key="Login"
-                sx={{
-                  "&:hover": { backgroundColor: "#fff" },
-                  color: "#000",
-                  fontWeight: "1000",
-                }}
-              >
-                Login
-              </Button>
-            </NavLink>
-            <NavLink to="/signup" style={{ textDecoration: "none" }}>
-              <Button
-                key="Signup"
-                sx={{
-                  "&:hover": { backgroundColor: "#fff" },
-                  color: "#000",
-                  fontWeight: "1000",
-                  mr: "60px",
-                }}
-              >
-                Signup
-              </Button>
-            </NavLink>
+            {renderPages.map((page) => (
+              <NavLink to={"/" + page} style={{ textDecoration: "none" }}>
+                <Button
+                  key={page}
+                  sx={{
+                    "&:hover": { backgroundColor: "#fff" },
+                    color: "#000",
+                    fontWeight: "1000",
+                  }}
+                >
+                  {page}
+                </Button>
+              </NavLink>
+            ))}
           </Box>
         </Toolbar>
       </AppBar>
@@ -166,4 +151,4 @@ function DrawerAppBar(props) {
   );
 }
 
-export default DrawerAppBar;
+export default NavBar;

@@ -18,6 +18,7 @@ function Login() {
   const { login, loginData, setLoginData, userLoggedIn, setUserLoggedIn } =
     useContext(UserContext);
 
+  //Alerts MUI
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -28,12 +29,7 @@ function Login() {
     severity: "",
   });
 
-  useEffect(() => {
-    console.log("Effect", toast);
-  }, [toast]);
-
   //nav Hooks
-
   const navigate = useNavigate();
 
   const handleOnSubmit = async (e) => {
@@ -62,6 +58,10 @@ function Login() {
   const handleOnChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    console.log("Effect", toast);
+  }, [toast]);
 
   return (
     <div>
