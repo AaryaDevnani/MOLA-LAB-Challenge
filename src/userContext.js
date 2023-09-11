@@ -6,12 +6,16 @@ export function UserProvider({ children }){
     const [user, setUser] = useState({
         firstName:"",
         lastName:"",
-        email:"",
-        isAdmin:false
+        email:""
     })
 
-    const signUp = async () =>{
-        if(user){
+    const [finalUser, setFinalUser] = useState({
+        password: "",
+        token: "",
+        isAdmin: false
+    })
+    const sendMail = async () =>{
+        if(user.firstName !== "" && user.lastName !== "" && user.email !== ""){
             const registerOptions = {
                 method: 'POST',
                 body: JSON.stringify(user),
@@ -19,16 +23,35 @@ export function UserProvider({ children }){
                   'Content-Type': 'application/json'
                 }
               };
-            console.log("we trying to fetch")
             const response = await fetch('http://localhost:5000/api/user/mail', registerOptions);
             if(response.statusCode !== 201){
                 console.log(response)
             }
         }
     }
+
+    const setPassword = async (token) => {
+        if(token !== "" && finalUser.password !== ""){
+            const requestOptions = {
+                method: 'POST',
+                body: JSON.stringify({
+                    password: finalUser.password,
+                    token,
+                    isAdmin: finalUser.isAdmin
+                }),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              };
+              const response = await fetch('http://localhost:5000/api/user/register', requestOptions);
+              if(response.statusCode !== 201){
+                console.log(response)
+            }
+        }
+    }
     
     return (
-        <UserContext.Provider value = {{user, setUser, signUp}}>{children}</UserContext.Provider>
+        <UserContext.Provider value = {{user, setUser, sendMail, finalUser, setFinalUser, setPassword}}>{children}</UserContext.Provider>
     );
 
 }
