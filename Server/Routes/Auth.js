@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../Models/User");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
-
+const cors = require("cors");
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
@@ -15,6 +15,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+//Handle Cors
+router.options("/mail", cors());
+router.options("/register", cors());
+router.options("/login", cors());
+
+//Email route to setup password
 router.post("/mail", async (req, res) => {
   const { firstName, lastName, email } = req.body;
   const emailExist = await User.findOne({ email });
@@ -27,7 +33,7 @@ router.post("/mail", async (req, res) => {
     { firstName: firstName, lastName: lastName, email: email },
     process.env.SECRET_ACCESS_TOKEN
   );
-  generatedURL = `http://localhost:5000/setpassword?token=${token}`;
+  generatedURL = `http://localhost:3000/setpassword?token=${token}`;
 
   const html = `
       <p>Hi, ${firstName + " " + lastName}</p>
@@ -35,32 +41,40 @@ router.post("/mail", async (req, res) => {
       <a href = "${generatedURL}">${generatedURL}</a>
       `;
   try {
-    // newUser = await user.save();
-
     const sent = await transporter.sendMail({
       from: "focus.app123@gmail.com",
       to: email,
       subject: "Setup Password",
       html,
     });
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
+
     res.status(201).json({ error: "" });
     console.log({ sent });
   } catch (error) {
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
     res.status(400).json({ error });
+    console.log(error);
   }
-  
 });
 
+//Register User route
 router.post("/register", async (req, res) => {
   const { token, password, isAdmin } = req.body;
 
   decoded = jwt.decode(token, process.env.SECRET_ACCESS_TOKEN);
 
   const emailExist = await User.findOne({ email: decoded.email });
-  if (emailExist)
+  if (emailExist) {
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
     return res
       .status(400)
       .json({ error: "An account with this email already exists." });
+  }
+
   //hashing pw
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -74,25 +88,38 @@ router.post("/register", async (req, res) => {
 
   try {
     newUser = await user.save();
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
     res.status(201).json({ error: "" });
   } catch (error) {
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
     res.status(400).json({ error });
   }
 });
 
+//Login Route
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   //checking for existing email
   const user = await User.findOne({ username });
-  if (!user)
+  if (!user) {
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
     return res.status(400).json({ error: "Incorrect email or password." });
+  }
 
   //pw validation
   const validPw = await bcrypt.compare(password, user.password);
-  if (!validPw)
+  if (!validPw) {
+    //for cors
+    res.appendHeader("Access-Control-Allow-Origin", "*");
     return res.status(400).json({ error: "Incorrect email or password." });
+  }
 
+  //for cors
+  res.appendHeader("Access-Control-Allow-Origin", "*");
   res.status(201).json({ error: "" });
 });
 module.exports = router;

@@ -1,15 +1,30 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import UserContext from '../userContext';
+
 
 function SignUp() {
+  const { user, setUser, signUp  } = useContext(UserContext)
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    if (user.password !== user.confirm_password) {
+      alert('Password does not match');
+      return;
+    }
+    await signUp();
+
+  };
+  const handleOnChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
         <Container component="main" maxWidth="xs">
@@ -27,26 +42,34 @@ function SignUp() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <Box component="form">
+          <Box component="form" onSubmit={handleOnSubmit} >
           <Grid container>
               <Grid item xs>
               <TextField
               margin="normal"
               required
-              name="First Name"
-              label="First Name"
-              type="text"
+              fullWidth
               id="firstName"
+              label="First Name"
+              name="firstName"
+              type="text"
+              autoFocus
+              value = {user.firstName}
+              onChange={handleOnChange}
             />
               </Grid>
               <Grid item>
               <TextField
               margin="normal"
               required
-              name="Last Name"
-              label="Last Name"
-              type="text"
+              fullWidth
               id="lastName"
+              label="Last Name"
+              name="lastName"
+              type="text"
+              autoFocus
+              value = {user.lastName}
+              onChange={handleOnChange}
             />
               </Grid>
             </Grid>
@@ -57,8 +80,11 @@ function SignUp() {
               id="email"
               label="Email Address"
               name="email"
+              type="email"
               autoComplete="email"
               autoFocus
+              value = {user.email}
+              onChange={handleOnChange}
             />
             <Button
               type="submit"

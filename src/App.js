@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/home';
@@ -6,6 +5,8 @@ import Nav from './components/NavBar'
 import SignUp from './components/signUp'
 import Login from './components/login'
 import SetPassword from './components/setPassword';
+
+
 function App() {
   return (
     <Router>
