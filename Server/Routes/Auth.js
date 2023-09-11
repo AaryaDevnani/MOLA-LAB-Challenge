@@ -86,10 +86,10 @@ router.post("/register", async (req, res) => {
 
 //Login Route
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   //checking for existing email
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
   if (!user) {
     //for cors
     return res.status(400).json({ error: "Incorrect email or password." });
@@ -98,13 +98,10 @@ router.post("/login", async (req, res) => {
   //pw validation
   const validPw = await bcrypt.compare(password, user.password);
   if (!validPw) {
-    //for cors
     return res.status(400).json({ error: "Incorrect email or password." });
   }
 
-  //for cors
-  res.appendHeader("Access-Control-Allow-Origin", "*");
-  res.status(201).json({ error: "" });
+  res.status(201).json({ error: "", isAdmin: user.isAdmin });
 });
 
 module.exports = router;

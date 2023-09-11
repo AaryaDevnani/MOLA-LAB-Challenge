@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import UserContext from "../userContext";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -7,24 +8,28 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import UserContext from "../userContext";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
 function SignUp() {
+  //MUI Alerts
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
   const [toast, setToast] = useState({
     open: false,
     message: "",
     severity: "",
   });
+
+  //Context Hooks
   const { user, setUser, sendMail } = useContext(UserContext);
+
+  //On Submit Handler
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     let res = await sendMail();
-    console.log("res", res);
     if (res == 200) {
       setToast({
         open: true,
@@ -33,15 +38,19 @@ function SignUp() {
       });
     } else {
       setToast({
-        open: false,
+        open: true,
         message: "Error.",
         severity: "error",
       });
     }
   };
+
+  //On Change Handler
   const handleOnChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
+  //UseEffect Hooks
   useEffect(() => {
     console.log("Effect", toast);
   }, [toast]);

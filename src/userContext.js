@@ -14,6 +14,17 @@ export function UserProvider({ children }) {
     token: "",
     isAdmin: false,
   });
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [userLoggedIn, setUserLoggedIn] = useState({
+    isLoggedIn: "",
+    isAdmin: false,
+  });
+
   const sendMail = async () => {
     if (user.firstName !== "" && user.lastName !== "" && user.email !== "") {
       const registerOptions = {
@@ -23,6 +34,7 @@ export function UserProvider({ children }) {
           "Content-Type": "application/json",
         },
       };
+
       const response = await fetch(
         "http://localhost:5000/api/user/mail",
         registerOptions
@@ -59,9 +71,41 @@ export function UserProvider({ children }) {
     }
   };
 
+  const login = async () => {
+    const requestOptions = {
+      method: "POST",
+      body: JSON.stringify({
+        email: loginData.email,
+        password: loginData.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(
+      "http://localhost:5000/api/user/login",
+      requestOptions
+    );
+    let responseBody = await response.json();
+    console.log(responseBody);
+    return { status: response.status, body: responseBody };
+  };
+
   return (
     <UserContext.Provider
-      value={{ user, setUser, sendMail, finalUser, setFinalUser, setPassword }}
+      value={{
+        user,
+        setUser,
+        sendMail,
+        finalUser,
+        setFinalUser,
+        setPassword,
+        userLoggedIn,
+        setUserLoggedIn,
+        loginData,
+        setLoginData,
+        login,
+      }}
     >
       {children}
     </UserContext.Provider>
