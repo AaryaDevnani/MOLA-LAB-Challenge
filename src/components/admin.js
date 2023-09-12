@@ -89,19 +89,28 @@ function Admin() {
     <div className="homePage">
       <div className="title">Users</div>
       <div style={{ width: "100%", height: "100%" }}>
-        <DataGrid
-          rows={users}
-          columns={columns}
-          getRowId={(row) => row.email}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          disableRowSelectionOnClick
-          pageSizeOptions={[5, 10]}
-          sx={{ mt: "15px" }}
-        />
+        {!userLoggedIn.isAdmin ? (
+          <div className="profileContent">
+            You do not have access to this page.
+            <br /> Only Admins can view this page.
+            <br />
+            If you think this is a mistake contact an admin.
+          </div>
+        ) : (
+          <DataGrid
+            rows={users}
+            columns={columns}
+            getRowId={(row) => row.email}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            disableRowSelectionOnClick
+            pageSizeOptions={[5, 10]}
+            sx={{ mt: "15px" }}
+          />
+        )}
       </div>
     </div>
   );

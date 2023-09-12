@@ -182,13 +182,16 @@ router.post("/removeAdmin", async (req, res) => {
 //All Users
 router.post("/allusers", async (req, res) => {
   const { objectID } = req.body;
-
-  const user = await User.findOne({ _id: objectID });
-  if (!user.isAdmin) {
-    return res.status(403).json({ error: "Access Denied" });
+  if (objectID) {
+    const user = await User.findOne({ _id: objectID });
+    if (!user.isAdmin) {
+      return res.status(403).json({ error: "Access Denied" });
+    } else {
+      let output = await User.find();
+      return res.status(200).json({ output });
+    }
   } else {
-    let output = await User.find();
-    return res.status(200).json({ output });
+    return res.status(400).json({ error: "No params received" });
   }
 });
 module.exports = router;
