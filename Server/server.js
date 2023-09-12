@@ -13,17 +13,6 @@ db.on("error", (err) => {
   console.error(err);
 });
 
-// Middlewares
-// app.use(cors());
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
 var corsMiddleware = function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); //replace localhost with actual host
   res.header(

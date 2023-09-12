@@ -1,0 +1,19 @@
+.profilePage{
+    margin: 0px 60px;
+}
+.profileTitle{
+    margin-left:15px;
+    font-size: 30px;
+    border-bottom: 1px solid black; 
+    border-width: 100%;
+    padding-bottom: 10px;
+}
+.profileContent{
+    margin-left: 20px;
+    margin-bottom: 5px;
+    margin-top:10px
+}
+.subTitle{
+    font-size: 20px;
+    text-decoration: underline;
+}

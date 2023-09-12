@@ -84,7 +84,7 @@ function SetPassword() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Set Password
             </Button>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}

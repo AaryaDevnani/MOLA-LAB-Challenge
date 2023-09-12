@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
@@ -96,7 +96,28 @@ export function UserProvider({ children }) {
     setUserLoggedIn({
       isLoggedIn: false,
       isAdmin: false,
+      userData: {},
     });
+  };
+
+  const deleteAccount = async () => {
+    const requestOptions = {
+      method: "DELETE",
+      body: JSON.stringify({
+        email: userLoggedIn.userData.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(
+      "http://localhost:5000/api/user/delete",
+      requestOptions
+    );
+    let responseBody = await response.json();
+    console.log(responseBody);
+    logout();
+    return { status: response.status, body: responseBody };
   };
 
   return (
@@ -114,6 +135,7 @@ export function UserProvider({ children }) {
         setLoginData,
         login,
         logout,
+        deleteAccount,
       }}
     >
       {children}

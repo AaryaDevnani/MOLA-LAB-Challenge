@@ -104,4 +104,79 @@ router.post("/login", async (req, res) => {
   res.status(201).json({ error: "", isAdmin: user.isAdmin, user: user });
 });
 
+// Delete User
+router.delete("/delete", async (req, res) => {
+  const { email } = req.body;
+  try {
+    deleted = await User.deleteOne({ email: email });
+    console.log(deleted);
+    res.status(200).json({ message: "Deleted Successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err });
+  }
+});
 module.exports = router;
+
+// Reset Password
+router.post("/resetpassword", async (req, res) => {
+  const { oldPassword, newPassword, email } = req.body;
+  console.log(req.body);
+  const user = await User.findOne({ email });
+  const validPw = await bcrypt.compare(oldPassword, user.password);
+  if (!validPw) {
+    return res.status(400).json({ error: "Incorrect Password, try again." });
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    let output = await User.updateOne(
+      { email: email },
+      {
+        $set: {
+          password: hashedPassword,
+        },
+      }
+    );
+    return res.status(200).json(output);
+  }
+});
+
+//make admin
+router.post("/makeAdmin", async (req, res) => {
+  const { adminEmail, email } = req.body;
+  const admin = await user.findOne({ adminEmail });
+  const user = await User.findOne({ email });
+  if (!admin.isAdmin) {
+    return res.status(400).json({ error: "Incorrect Password, try again." });
+  } else {
+    let output = await User.updateOne(
+      { email: email },
+      {
+        $set: {
+          isAdmin: true,
+        },
+      }
+    );
+    console.log(output);
+    return res.status(200).json(output);
+  }
+});
+//delete admin
+router.post("/removeAdmin", async (req, res) => {
+  const { adminEmail, email } = req.body;
+  const admin = await user.findOne({ adminEmail });
+  const user = await User.findOne({ email });
+  if (!admin.isAdmin) {
+    return res.status(400).json({ error: "Incorrect Password, try again." });
+  } else {
+    let output = await User.updateOne(
+      { email: email },
+      {
+        $set: {
+          isAdmin: false,
+        },
+      }
+    );
+    console.log(output);
+    return res.status(200).json(output);
+  }
+});

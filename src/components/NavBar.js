@@ -169,18 +169,20 @@ function NavBar(props) {
                     Profile
                   </Button>
                 </NavLink>
-                <Button
-                  key="Logout"
-                  sx={{
-                    "&:hover": { backgroundColor: "#fff" },
-                    color: "#000",
-                    fontWeight: "1000",
-                    mr: "60px",
-                  }}
-                  onClick={logout}
-                >
-                  Logout
-                </Button>
+                <NavLink to={"/"} style={{ textDecoration: "none" }}>
+                  <Button
+                    key="Logout"
+                    sx={{
+                      "&:hover": { backgroundColor: "#fff" },
+                      color: "#000",
+                      fontWeight: "1000",
+                      mr: "60px",
+                    }}
+                    onClick={logout}
+                  >
+                    Logout
+                  </Button>
+                </NavLink>
               </>
             ) : (
               <>
