@@ -115,7 +115,6 @@ router.delete("/delete", async (req, res) => {
     res.status(400).json({ error: err });
   }
 });
-module.exports = router;
 
 // Reset Password
 router.post("/resetpassword", async (req, res) => {
@@ -142,11 +141,11 @@ router.post("/resetpassword", async (req, res) => {
 
 //make admin
 router.post("/makeAdmin", async (req, res) => {
-  const { adminEmail, email } = req.body;
-  const admin = await user.findOne({ adminEmail });
-  const user = await User.findOne({ email });
+  const { objectID, email } = req.body;
+  const admin = await User.findOne({ _id: objectID });
+
   if (!admin.isAdmin) {
-    return res.status(400).json({ error: "Incorrect Password, try again." });
+    return res.status(400).json({ error: "Access Denied" });
   } else {
     let output = await User.updateOne(
       { email: email },
@@ -162,11 +161,10 @@ router.post("/makeAdmin", async (req, res) => {
 });
 //delete admin
 router.post("/removeAdmin", async (req, res) => {
-  const { adminEmail, email } = req.body;
-  const admin = await user.findOne({ adminEmail });
-  const user = await User.findOne({ email });
+  const { objectID, email } = req.body;
+  const admin = await User.findOne({ _id: objectID });
   if (!admin.isAdmin) {
-    return res.status(400).json({ error: "Incorrect Password, try again." });
+    return res.status(403).json({ error: "Access Denied" });
   } else {
     let output = await User.updateOne(
       { email: email },
@@ -180,3 +178,17 @@ router.post("/removeAdmin", async (req, res) => {
     return res.status(200).json(output);
   }
 });
+
+//All Users
+router.post("/allusers", async (req, res) => {
+  const { objectID } = req.body;
+
+  const user = await User.findOne({ _id: objectID });
+  if (!user.isAdmin) {
+    return res.status(403).json({ error: "Access Denied" });
+  } else {
+    let output = await User.find();
+    return res.status(200).json({ output });
+  }
+});
+module.exports = router;

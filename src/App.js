@@ -6,6 +6,7 @@ import SignUp from "./components/signUp";
 import Login from "./components/login";
 import SetPassword from "./components/setPassword";
 import Profile from "./components/profile";
+import Admin from "./components/admin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/setpassword" element={<SetPassword />} />
           <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </Router>

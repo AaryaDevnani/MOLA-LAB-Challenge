@@ -53,7 +53,6 @@ function PublicationsList() {
           ))}
         </List>
       </nav>
-      {/* <Divider /> */}
     </Box>
   );
 }
