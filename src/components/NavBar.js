@@ -91,7 +91,7 @@ function NavBar(props) {
         sx={{ backgroundColor: "#fff", boxShadow: "None", color: "#000" }}
       >
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
@@ -99,28 +99,33 @@ function NavBar(props) {
             sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              ml: "50px",
-              fontSize: { lg: "30px", md: "20px", sm: "20px" },
-            }}
-          >
-            Morality and Language Lab
+          </IconButton> */}
+          <NavLink to={"/"} style={{ textDecoration: "none", color: "black" }}>
             <Typography
+              variant="h6"
               component="div"
               sx={{
-                fontSize: { lg: "20px" },
-                fontWeight: "500",
-                textAlign: "center",
-                display: { xs: "None", sm: "None", md: "block", lg: "block" },
+                ml: "50px",
+                fontSize: { lg: "30px", md: "20px", sm: "20px" },
+                "&:hover": { color: "#C63210" },
               }}
             >
-              University of Southern California
+              Morality and Language Lab
+              <Typography
+                component="div"
+                sx={{
+                  fontSize: { lg: "20px" },
+                  fontWeight: "500",
+                  textAlign: "center",
+                  display: { xs: "None", sm: "None", md: "block", lg: "block" },
+                  color: "#C63210",
+                  // mr: 2,
+                }}
+              >
+                University of Southern California
+              </Typography>
             </Typography>
-          </Typography>
+          </NavLink>
           <Box
             sx={{
               flexGrow: 1,
@@ -214,6 +219,15 @@ function NavBar(props) {
               </>
             )}
           </Box>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ ml: 2, display: { sm: "none" }, alignContent: "flex-end" }}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <nav>

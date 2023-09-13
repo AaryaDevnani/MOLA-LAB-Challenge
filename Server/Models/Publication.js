@@ -15,7 +15,7 @@ const publicationSchema = new mongoose.Schema({
   },
   Bib: {
     type: String,
-    required: true,
+    required: false,
   },
   Year: {
     type: Number,
@@ -23,9 +23,13 @@ const publicationSchema = new mongoose.Schema({
   },
   Type: {
     type: String,
-    required: true,
+    required: false,
   },
   Topic: {
+    type: String,
+    required: false,
+  },
+  Key: {
     type: String,
     required: true,
   },

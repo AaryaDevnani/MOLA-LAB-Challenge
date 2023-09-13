@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../userContext";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
+import FileUpload from "./fileUpload";
 
 function Admin() {
   const [users, setUsers] = useState([]);
@@ -72,14 +73,11 @@ function Admin() {
       renderCell: (cellValues) => {
         return (
           <Button
-            // variant="contained"
-            // color="black"
             onClick={(e) => {
               handleClick(e, cellValues);
             }}
           >
             {cellValues.row.isAdmin ? <>Demote</> : <>Promote</>}
-            {/* Promote */}
           </Button>
         );
       },
@@ -87,7 +85,6 @@ function Admin() {
   ];
   return (
     <div className="homePage">
-      <div className="title">Users</div>
       <div style={{ width: "100%", height: "100%" }}>
         {!userLoggedIn.isAdmin ? (
           <div className="profileContent">
@@ -97,19 +94,30 @@ function Admin() {
             If you think this is a mistake contact an admin.
           </div>
         ) : (
-          <DataGrid
-            rows={users}
-            columns={columns}
-            getRowId={(row) => row.email}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            disableRowSelectionOnClick
-            pageSizeOptions={[5, 10]}
-            sx={{ mt: "15px" }}
-          />
+          <>
+            <div className="title">Add Publications</div>
+            <FileUpload />
+            <div className="title">Users</div>
+            <DataGrid
+              rows={users}
+              columns={columns}
+              getRowId={(row) => row.email}
+              align="center"
+              // sx={{
+              //   alignItems: "center",
+              //   textAlign: "center",
+              //   justifyContent: "center",
+              // }}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              disableRowSelectionOnClick
+              pageSizeOptions={[5, 10]}
+              sx={{ mt: "15px", mb: "30px" }}
+            />
+          </>
         )}
       </div>
     </div>

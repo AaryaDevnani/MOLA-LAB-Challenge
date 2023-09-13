@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const fileupload = require("express-fileupload");
 require("dotenv").config();
 
 const PORT = 5000;
@@ -27,6 +28,7 @@ var corsMiddleware = function (req, res, next) {
   next();
 };
 
+app.use(fileupload());
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
