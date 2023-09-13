@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const fileupload = require("express-fileupload");
 require("dotenv").config();
+const path = require("path");
 
 const PORT = 5000;
 
@@ -32,6 +33,7 @@ app.use(fileupload());
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "..", "Server/build")));
 
 // Route imports
 const userRoute = require("./Routes/Auth");
