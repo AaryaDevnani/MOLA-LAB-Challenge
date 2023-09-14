@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud run deploy helloworld \
+          gcloud run deploy mola \
           --region europe-west1 \
           --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/mola \
           --platform managed \
