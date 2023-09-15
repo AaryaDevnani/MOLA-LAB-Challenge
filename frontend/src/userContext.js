@@ -37,7 +37,7 @@ export function UserProvider({ children }) {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/user/mail",
+        `${process.env.REACT_APP_API_URI}api/user/mail`,
         registerOptions
       );
       if (response.status !== 201) {
@@ -61,7 +61,7 @@ export function UserProvider({ children }) {
         },
       };
       const response = await fetch(
-        "http://localhost:5000/api/user/register",
+        `${process.env.REACT_APP_API_URI}api/user/register`,
         requestOptions
       );
       if (response.status !== 201) {
@@ -84,7 +84,7 @@ export function UserProvider({ children }) {
       },
     };
     const response = await fetch(
-      "http://localhost:5000/api/user/login",
+      `${process.env.REACT_APP_API_URI}api/user/login`,
       requestOptions
     );
     let responseBody = await response.json();
@@ -111,7 +111,7 @@ export function UserProvider({ children }) {
       },
     };
     const response = await fetch(
-      "http://localhost:5000/api/user/delete",
+      `${process.env.REACT_APP_API_URI}api/user/delete`,
       requestOptions
     );
     let responseBody = await response.json();

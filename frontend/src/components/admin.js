@@ -22,16 +22,19 @@ function Admin() {
       } else {
         action = "makeadmin";
       }
-      const response = await fetch(`http://localhost:5000/api/user/${action}`, {
-        method: "POST",
-        body: JSON.stringify({
-          objectID: userLoggedIn.userData._id,
-          email: cellValues.row.email,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URI}api/user/${action}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            objectID: userLoggedIn.userData._id,
+            email: cellValues.row.email,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       let res = await response.json();
       console.log(res);
     }
@@ -39,13 +42,16 @@ function Admin() {
 
   const fetchUsers = async () => {
     let obj = { objectID: userLoggedIn.userData._id };
-    const response = await fetch("http://localhost:5000/api/user/allusers", {
-      method: "POST",
-      body: JSON.stringify(obj),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "${process.env.REACT_APP_API_URI}api/user/allusers",
+      {
+        method: "POST",
+        body: JSON.stringify(obj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response.status === 200) {
       let data = await response.json();
       setUsers(data.output);

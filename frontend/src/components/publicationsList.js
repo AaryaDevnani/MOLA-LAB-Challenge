@@ -8,9 +8,12 @@ import Article from "./article";
 function PublicationsList() {
   let [publications, setPublications] = useState([]);
   const fetchPublications = async () => {
-    const response = await fetch("http://localhost:5000/api/publications/get", {
-      method: "GET",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URI}api/publications/get`,
+      {
+        method: "GET",
+      }
+    );
     if (response.status === 200) {
       let data = await response.json();
       setPublications(data.articles);

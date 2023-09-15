@@ -44,7 +44,7 @@ function Profile() {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/user/resetpassword",
+        `${process.env.REACT_APP_API_URI}api/user/resetpassword`,
         resetOptions
       );
       if (response.status == 200) {

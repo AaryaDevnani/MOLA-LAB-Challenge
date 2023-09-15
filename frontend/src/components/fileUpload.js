@@ -60,7 +60,7 @@ function FileUpload() {
       let res = await Promise.all(fileListAsArray);
       console.log(res);
       const response = await fetch(
-        `http://localhost:5000/api/publications/files`,
+        `${process.env.REACT_APP_API_URI}api/publications/files`,
         {
           method: "POST",
           body: JSON.stringify({
