@@ -43,7 +43,7 @@ function Admin() {
   const fetchUsers = async () => {
     let obj = { objectID: userLoggedIn.userData._id };
     const response = await fetch(
-      "${process.env.REACT_APP_API_URI}api/user/allusers",
+      `${process.env.REACT_APP_API_URI}api/user/allusers`,
       {
         method: "POST",
         body: JSON.stringify(obj),
