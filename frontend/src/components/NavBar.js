@@ -74,54 +74,66 @@ function NavBar(props) {
       </Typography>
       <List sx={{ fontFamily: '"Cabin", san-serif' }}>
         <ListItem key="Publications" disablePadding>
-          <ListItemText
-            primary="Publications"
-            sx={mobileNavMenu}
-            disableTypography
-          />
+          <NavLink to={"/publications"} style={{ textDecoration: "none" }}>
+            <ListItemText
+              primary="Publications"
+              sx={mobileNavMenu}
+              disableTypography
+            />
+          </NavLink>
         </ListItem>
         {!userLoggedIn.isAdmin && !userLoggedIn.isLoggedin ? (
           <>
             <ListItem key="Login" disablePadding>
-              <ListItemText
-                primary="Login"
-                sx={mobileNavMenu}
-                disableTypography
-              />
+              <NavLink to={"/login"} style={{ textDecoration: "none" }}>
+                <ListItemText
+                  primary="Login"
+                  sx={mobileNavMenu}
+                  disableTypography
+                />
+              </NavLink>
             </ListItem>
             <ListItem key="Signup" disablePadding>
-              <ListItemText
-                primary="Signup"
-                sx={mobileNavMenu}
-                disableTypography
-              />
+              <NavLink to={"/signup"} style={{ textDecoration: "none" }}>
+                <ListItemText
+                  primary="Signup"
+                  sx={mobileNavMenu}
+                  disableTypography
+                />
+              </NavLink>
             </ListItem>
           </>
         ) : (
           <>
             {userLoggedIn.isAdmin && (
               <ListItem key="Admin" disablePadding>
-                <ListItemText
-                  primary="Admin"
-                  sx={mobileNavMenu}
-                  disableTypography
-                />
+                <NavLink to={"/admin"} style={{ textDecoration: "none" }}>
+                  <ListItemText
+                    primary="Admin"
+                    sx={mobileNavMenu}
+                    disableTypography
+                  />
+                </NavLink>
               </ListItem>
             )}
 
             <ListItem key="Profile" disablePadding>
-              <ListItemText
-                primary="Profile"
-                sx={mobileNavMenu}
-                disableTypography
-              />
+              <NavLink to={"/profile"} style={{ textDecoration: "none" }}>
+                <ListItemText
+                  primary="Profile"
+                  sx={mobileNavMenu}
+                  disableTypography
+                />
+              </NavLink>
             </ListItem>
             <ListItem key="Logout" disablePadding>
-              <ListItemText
-                primary="Logout"
-                sx={mobileNavMenu}
-                disableTypography
-              />
+              <NavLink to={"/logout"} style={{ textDecoration: "none" }}>
+                <ListItemText
+                  primary="Logout"
+                  sx={mobileNavMenu}
+                  disableTypography
+                />
+              </NavLink>
             </ListItem>
           </>
         )}

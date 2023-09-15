@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const cors = require("cors");
+
 const fileupload = require("express-fileupload");
 require("dotenv").config();
 const path = require("path");
@@ -16,7 +16,7 @@ db.on("error", (err) => {
 });
 
 var corsMiddleware = function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); //replace localhost with actual host
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, PUT, PATCH, POST, DELETE"
@@ -40,12 +40,12 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 // Route imports
 const userRoute = require("./Routes/Auth");
 const publicationsRoute = require("./Routes/Publications");
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
 // Routes middlewares
 app.use("/api/user", userRoute);
 app.use("/api/publications", publicationsRoute);
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
 
 //set port
 app.listen(PORT, () => console.log("Server running on port", PORT));
