@@ -3,6 +3,12 @@
     color:#136a8a;
     margin:0px;
     padding:0px;
+    
+    
+}
+a.article-title{
+    text-decoration: none !important;
+    cursor: pointer;
 }
 .article-meta{
     margin:0px;
@@ -11,4 +17,5 @@
 a.bib{
     text-decoration: none;
     color: #136a8a;
+    cursor: pointer;
 }

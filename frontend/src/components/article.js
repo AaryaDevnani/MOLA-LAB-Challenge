@@ -3,7 +3,7 @@ import "./styles/article.css";
 function Article({ Title, Collaborators, Year, Journal, bib }) {
   return (
     <div>
-      <p className="article-title">{Title}</p>
+      <a className="article-title">{Title}</a>
       <div className="article-meta">
         {Collaborators}. {Title}. ({Year})<i> {Journal}</i>
       </div>

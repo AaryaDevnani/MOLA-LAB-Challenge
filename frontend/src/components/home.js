@@ -11,15 +11,22 @@ function home() {
       <div className="title">Publications</div>
       <div className="gridStart">
         <Box sx={{ flexGrow: 1 }}>
-          <Grid
-            container
-            rowSpacing={1}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          >
-            <Grid xs={3}>
-              <FilterList sx={{ position: "relative", overflow: "auto" }} />
+          <Grid container rowSpacing={1} columnSpacing={3}>
+            <Grid lg={3} sm={0} xs={0}>
+              <FilterList
+                sx={{
+                  position: "relative",
+                  overflow: "auto",
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    med: "block",
+                    lg: "block",
+                  },
+                }}
+              />
             </Grid>
-            <Grid div xs={9}>
+            <Grid div lg={9}>
               <div>
                 <PublicationsList />
               </div>

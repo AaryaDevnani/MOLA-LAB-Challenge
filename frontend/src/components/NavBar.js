@@ -14,31 +14,37 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import "./styles/nav.css";
 
 function NavBar(props) {
   const molaRed = "#C63210";
   const navButtonStyle = {
+    fontSize: "15px",
     color: "#000",
-    fontWeight: "1000",
+    fontFamily: " Cabin, sans-serif",
+    fontWeight: "700",
     "&:hover": {
       backgroundColor: "#fff",
       textDecoration: "Underline",
       textDecorationColor: molaRed,
-      textDecorationThickness: "2px",
+      textDecorationThickness: "1px",
       color: molaRed,
     },
   };
   const navActiveStyle = {
     color: molaRed,
-    fontWeight: "1000",
+    fontSize: "15px",
+    fontFamily: " Cabin, sans-serif",
+    fontWeight: "700",
     textDecoration: "Underline",
     textDecorationColor: molaRed,
-    textDecorationThickness: "2px",
+    textDecorationThickness: "1px",
     "&:hover": {
       backgroundColor: "#fff",
       textDecoration: "Underline",
       textDecorationColor: molaRed,
-      textDecorationThickness: "2px",
+      textDecorationThickness: "1px",
+      transition: "all .5s ease-in",
     },
   };
 
@@ -117,38 +123,29 @@ function NavBar(props) {
         sx={{ backgroundColor: "#fff", boxShadow: "None", color: "#000" }}
       >
         <Toolbar>
-          {/* <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <NavLink to={"/"} style={{ textDecoration: "none", color: "black" }}>
             <Typography
-              variant="h6"
               component="div"
+              fontFamily={" Cabin, sans-serif"}
               sx={{
                 ml: "50px",
-                fontSize: { lg: "30px", md: "20px", sm: "20px" },
-                "&:hover": { color: molaRed },
+                fontSize: { lg: "37px", md: "25px", sm: "20px" },
+                "&:hover": { color: molaRed, transition: "all .5s ease-in" },
               }}
             >
               Morality and Language Lab
               <Typography
                 component="div"
+                fontFamily={" Cabin, sans-serif"}
                 sx={{
-                  fontSize: { lg: "20px" },
-                  fontWeight: "500",
+                  fontSize: { lg: "17px" },
+                  fontWeight: "700",
                   textAlign: "center",
                   display: { xs: "None", sm: "None", md: "block", lg: "block" },
                   color: molaRed,
-                  // mr: 2,
                 }}
               >
-                University of Southern California
+                UNIVERSITY OF SOUTHERN CALIFORNIA
               </Typography>
             </Typography>
           </NavLink>
@@ -158,6 +155,7 @@ function NavBar(props) {
               display: { xs: "none", sm: "flex" },
               flexDirection: "row",
               justifyContent: "flex-end",
+              mr: "35px",
             }}
           >
             <NavLink to={"/"} style={{ textDecoration: "none" }}>
