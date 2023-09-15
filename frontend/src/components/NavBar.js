@@ -61,10 +61,10 @@ function NavBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography sx={{ my: 2 }}>
+      <Typography sx={{ my: 2, fontFamily: '"Cabin", san-serif' }}>
         <div>Morality and Language Lab</div>
       </Typography>
-      <List>
+      <List sx={{ fontFamily: '"Cabin", san-serif' }}>
         <ListItem key="Publications" disablePadding>
           <ListItemButton sx={{ textAlign: "center" }}>
             <ListItemText primary="Publications" sx={{ color: "#000" }} />
