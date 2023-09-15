@@ -5,6 +5,8 @@ WORKDIR /App/
 COPY frontend/public/ /App/frontend/public
 COPY frontend/src/ /App/frontend/src
 COPY frontend/package.json /App/frontend/
+COPY frontend/.env.development /App/frontend/
+COPY frontend/.env.production /App/frontend/
 
 WORKDIR /App/frontend
 RUN npm install
