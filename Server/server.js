@@ -33,13 +33,16 @@ app.use(fileupload());
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-console.log(path.join(__dirname, "../frontend/build"));
+// console.log(path.join(__dirname, "../frontend/build"));
+
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // Route imports
 const userRoute = require("./Routes/Auth");
 const publicationsRoute = require("./Routes/Publications");
-
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
 // Routes middlewares
 app.use("/api/user", userRoute);
 app.use("/api/publications", publicationsRoute);
