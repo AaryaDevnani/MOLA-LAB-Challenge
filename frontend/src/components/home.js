@@ -12,21 +12,25 @@ function home() {
       <div className="gridStart">
         <Box sx={{ flexGrow: 1 }}>
           <Grid container rowSpacing={1} columnSpacing={3}>
-            <Grid lg={3} sm={0} xs={0}>
+            <Grid
+              lg={3}
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  med: "block",
+                  lg: "block",
+                },
+              }}
+            >
               <FilterList
                 sx={{
                   position: "relative",
                   overflow: "auto",
-                  display: {
-                    xs: "none",
-                    sm: "none",
-                    med: "block",
-                    lg: "block",
-                  },
                 }}
               />
             </Grid>
-            <Grid div lg={9}>
+            <Grid div lg={9} sm={12} xs={12}>
               <div>
                 <PublicationsList />
               </div>

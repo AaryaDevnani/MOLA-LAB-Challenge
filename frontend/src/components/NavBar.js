@@ -47,7 +47,12 @@ function NavBar(props) {
       transition: "all .5s ease-in",
     },
   };
-
+  const mobileNavMenu = {
+    color: "#000",
+    fontSize: "30px",
+    textAlign: "center",
+    fontWeight: "700",
+  };
   const { userLoggedIn, logout } = useContext(UserContext);
 
   const { window } = props;
@@ -61,47 +66,62 @@ function NavBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography sx={{ my: 2, fontFamily: '"Cabin", san-serif' }}>
-        <div>Morality and Language Lab</div>
+      <Typography
+        sx={{ my: 2, fontFamily: '"Cabin", san-serif', fontSize: "25px" }}
+      >
+        <div>Morality and Language Lab </div>
+        {/* <MenuIcon /> */}
       </Typography>
       <List sx={{ fontFamily: '"Cabin", san-serif' }}>
         <ListItem key="Publications" disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText primary="Publications" sx={{ color: "#000" }} />
-          </ListItemButton>
+          <ListItemText
+            primary="Publications"
+            sx={mobileNavMenu}
+            disableTypography
+          />
         </ListItem>
         {!userLoggedIn.isAdmin && !userLoggedIn.isLoggedin ? (
           <>
             <ListItem key="Login" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Login" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Login"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
             <ListItem key="Signup" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Signup" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Signup"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
           </>
         ) : (
           <>
             {userLoggedIn.isAdmin && (
               <ListItem key="Admin" disablePadding>
-                <ListItemButton sx={{ textAlign: "center" }}>
-                  <ListItemText primary="Admin" sx={{ color: "#000" }} />
-                </ListItemButton>
+                <ListItemText
+                  primary="Admin"
+                  sx={mobileNavMenu}
+                  disableTypography
+                />
               </ListItem>
             )}
 
             <ListItem key="Profile" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Profile" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Profile"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
             <ListItem key="Logout" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Logout" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Logout"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
           </>
         )}
@@ -127,9 +147,10 @@ function NavBar(props) {
             <Typography
               component="div"
               fontFamily={" Cabin, sans-serif"}
+              disableTypography
               sx={{
-                ml: "50px",
-                fontSize: { lg: "37px", md: "25px", sm: "20px" },
+                ml: { lg: "50px", md: "50px" },
+                fontSize: { lg: "37px", md: "25px", sm: "23px", xs: "23px" },
                 "&:hover": { color: molaRed, transition: "all .5s ease-in" },
               }}
             >
