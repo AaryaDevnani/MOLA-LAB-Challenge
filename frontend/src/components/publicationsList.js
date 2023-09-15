@@ -30,28 +30,13 @@ function PublicationsList() {
         <List>
           {publications.map((pub) => (
             <ListItem>
-              <ListItemButton>
-                <Article
-                  Title={pub.Title}
-                  Collaborators={pub.Collaborators}
-                  Year={pub.Year}
-                  Journal={pub.Journal}
-                  bib={pub.bib}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-          {publications.map((pub) => (
-            <ListItem>
-              <ListItemButton>
-                <Article
-                  Title={pub.Title}
-                  Collaborators={pub.Collaborators}
-                  Year={pub.Year}
-                  Journal={pub.Journal}
-                  bib={pub.bib}
-                />
-              </ListItemButton>
+              <Article
+                Title={pub.Title}
+                Collaborators={pub.Collaborators}
+                Year={pub.Year}
+                Journal={pub.Journal}
+                bib={pub.bib}
+              />
             </ListItem>
           ))}
         </List>

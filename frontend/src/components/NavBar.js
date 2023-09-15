@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import UserContext from "../userContext";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -14,8 +14,45 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import "./styles/nav.css";
 
 function NavBar(props) {
+  const molaRed = "#C63210";
+  const navButtonStyle = {
+    fontSize: "15px",
+    color: "#000",
+    fontFamily: " Cabin, sans-serif",
+    fontWeight: "700",
+    "&:hover": {
+      backgroundColor: "#fff",
+      textDecoration: "Underline",
+      textDecorationColor: molaRed,
+      textDecorationThickness: "1px",
+      color: molaRed,
+    },
+  };
+  const navActiveStyle = {
+    color: molaRed,
+    fontSize: "15px",
+    fontFamily: " Cabin, sans-serif",
+    fontWeight: "700",
+    textDecoration: "Underline",
+    textDecorationColor: molaRed,
+    textDecorationThickness: "1px",
+    "&:hover": {
+      backgroundColor: "#fff",
+      textDecoration: "Underline",
+      textDecorationColor: molaRed,
+      textDecorationThickness: "1px",
+      transition: "all .5s ease-in",
+    },
+  };
+  const mobileNavMenu = {
+    color: "#000",
+    fontSize: "30px",
+    textAlign: "center",
+    fontWeight: "700",
+  };
   const { userLoggedIn, logout } = useContext(UserContext);
 
   const { window } = props;
@@ -25,49 +62,66 @@ function NavBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const location = useLocation().pathname;
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography sx={{ my: 2 }}>
-        <div>Morality and Language Lab</div>
+      <Typography
+        sx={{ my: 2, fontFamily: '"Cabin", san-serif', fontSize: "25px" }}
+      >
+        <div>Morality and Language Lab </div>
+        {/* <MenuIcon /> */}
       </Typography>
-      <List>
+      <List sx={{ fontFamily: '"Cabin", san-serif' }}>
         <ListItem key="Publications" disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText primary="Publications" sx={{ color: "#000" }} />
-          </ListItemButton>
+          <ListItemText
+            primary="Publications"
+            sx={mobileNavMenu}
+            disableTypography
+          />
         </ListItem>
         {!userLoggedIn.isAdmin && !userLoggedIn.isLoggedin ? (
           <>
             <ListItem key="Login" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Login" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Login"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
             <ListItem key="Signup" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Signup" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Signup"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
           </>
         ) : (
           <>
             {userLoggedIn.isAdmin && (
               <ListItem key="Admin" disablePadding>
-                <ListItemButton sx={{ textAlign: "center" }}>
-                  <ListItemText primary="Admin" sx={{ color: "#000" }} />
-                </ListItemButton>
+                <ListItemText
+                  primary="Admin"
+                  sx={mobileNavMenu}
+                  disableTypography
+                />
               </ListItem>
             )}
 
             <ListItem key="Profile" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Profile" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Profile"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
             <ListItem key="Logout" disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary="Logout" sx={{ color: "#000" }} />
-              </ListItemButton>
+              <ListItemText
+                primary="Logout"
+                sx={mobileNavMenu}
+                disableTypography
+              />
             </ListItem>
           </>
         )}
@@ -78,9 +132,7 @@ function NavBar(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  useEffect(() => {
-    console.log("Effect", userLoggedIn);
-  }, [userLoggedIn]);
+  useEffect(() => {}, [userLoggedIn]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -91,38 +143,30 @@ function NavBar(props) {
         sx={{ backgroundColor: "#fff", boxShadow: "None", color: "#000" }}
       >
         <Toolbar>
-          {/* <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <NavLink to={"/"} style={{ textDecoration: "none", color: "black" }}>
             <Typography
-              variant="h6"
               component="div"
+              fontFamily={" Cabin, sans-serif"}
+              disableTypography
               sx={{
-                ml: "50px",
-                fontSize: { lg: "30px", md: "20px", sm: "20px" },
-                "&:hover": { color: "#C63210" },
+                ml: { lg: "50px", md: "50px" },
+                fontSize: { lg: "37px", md: "25px", sm: "23px", xs: "23px" },
+                "&:hover": { color: molaRed, transition: "all .5s ease-in" },
               }}
             >
               Morality and Language Lab
               <Typography
                 component="div"
+                fontFamily={" Cabin, sans-serif"}
                 sx={{
-                  fontSize: { lg: "20px" },
-                  fontWeight: "500",
+                  fontSize: { lg: "17px" },
+                  fontWeight: "700",
                   textAlign: "center",
                   display: { xs: "None", sm: "None", md: "block", lg: "block" },
-                  color: "#C63210",
-                  // mr: 2,
+                  color: molaRed,
                 }}
               >
-                University of Southern California
+                UNIVERSITY OF SOUTHERN CALIFORNIA
               </Typography>
             </Typography>
           </NavLink>
@@ -132,16 +176,14 @@ function NavBar(props) {
               display: { xs: "none", sm: "flex" },
               flexDirection: "row",
               justifyContent: "flex-end",
+              mr: "35px",
             }}
           >
             <NavLink to={"/"} style={{ textDecoration: "none" }}>
               <Button
-                key={"Publications"}
-                sx={{
-                  "&:hover": { backgroundColor: "#fff" },
-                  color: "#000",
-                  fontWeight: "1000",
-                }}
+                key="Publications"
+                disableRipple
+                sx={location == "/" ? navActiveStyle : navButtonStyle}
               >
                 Publications
               </Button>
@@ -149,27 +191,25 @@ function NavBar(props) {
             {userLoggedIn.isLoggedIn ? (
               <>
                 {userLoggedIn.isAdmin && (
-                  <NavLink to={"/Admin"} style={{ textDecoration: "none" }}>
+                  <NavLink to={"/admin"} style={{ textDecoration: "none" }}>
                     <Button
                       key="Admin"
-                      sx={{
-                        "&:hover": { backgroundColor: "#fff" },
-                        color: "#000",
-                        fontWeight: "1000",
-                      }}
+                      disableRipple
+                      sx={
+                        location == "/admin" ? navActiveStyle : navButtonStyle
+                      }
                     >
                       Admin
                     </Button>
                   </NavLink>
                 )}
-                <NavLink to={"/Profile"} style={{ textDecoration: "none" }}>
+                <NavLink to={"/profile"} style={{ textDecoration: "none" }}>
                   <Button
                     key="Profile"
-                    sx={{
-                      "&:hover": { backgroundColor: "#fff" },
-                      color: "#000",
-                      fontWeight: "1000",
-                    }}
+                    disableRipple
+                    sx={
+                      location == "/profile" ? navActiveStyle : navButtonStyle
+                    }
                   >
                     Profile
                   </Button>
@@ -177,12 +217,11 @@ function NavBar(props) {
                 <NavLink to={"/"} style={{ textDecoration: "none" }}>
                   <Button
                     key="Logout"
-                    sx={{
-                      "&:hover": { backgroundColor: "#fff" },
-                      color: "#000",
-                      fontWeight: "1000",
-                      mr: "60px",
-                    }}
+                    disableRipple
+                    sx={
+                      navButtonStyle
+                      // mr: "60px",
+                    }
                     onClick={logout}
                   >
                     Logout
@@ -194,11 +233,10 @@ function NavBar(props) {
                 <NavLink to={"/login"} style={{ textDecoration: "none" }}>
                   <Button
                     key="Login"
-                    sx={{
-                      "&:hover": { backgroundColor: "#fff" },
-                      color: "#000",
-                      fontWeight: "1000",
-                    }}
+                    disableRipple
+                    sx={
+                      location == "/profile" ? navActiveStyle : navButtonStyle
+                    }
                   >
                     Login
                   </Button>
@@ -206,12 +244,10 @@ function NavBar(props) {
                 <NavLink to={"/signup"} style={{ textDecoration: "none" }}>
                   <Button
                     key="Signup"
-                    sx={{
-                      "&:hover": { backgroundColor: "#fff" },
-                      color: "#000",
-                      fontWeight: "1000",
-                      mr: "60px",
-                    }}
+                    disableRipple
+                    sx={
+                      location == "/profile" ? navActiveStyle : navButtonStyle
+                    }
                   >
                     Signup
                   </Button>
