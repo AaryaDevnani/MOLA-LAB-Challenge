@@ -2,21 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import ExpandMore from "@mui/icons-material/ExpandMore";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartIcon from "@mui/icons-material/RestartAlt";
 import Box from "@mui/material/Box";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 import "./styles/home.css";
 import Article from "./article";
 
 function Home() {
   const [searchInput, setSearchInput] = useState("");
+  const [allPublications, setAllPublications] = useState([]);
   const [publications, setPublications] = useState([]);
-
+  const [year, setYear] = useState(0);
+  const [type, setType] = useState("");
+  const [topic, setTopic] = useState("");
   const fetchPublications = async () => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URI}api/publications/get`,
@@ -27,10 +29,15 @@ function Home() {
     if (response.status === 200) {
       let data = await response.json();
       setPublications(data.articles);
+      setAllPublications(data.articles);
     } else {
       console.log(response);
     }
   };
+
+  useEffect(() => {
+    fetchPublications();
+  }, []);
 
   const handleOnSearchChange = (e) => {
     setSearchInput(e.target.value);
@@ -38,20 +45,51 @@ function Home() {
     if (searchInput) {
       searchFunction();
     } else {
-      fetchPublications();
+      setPublications(allPublications);
     }
   };
 
   const searchFunction = () => {
     setPublications(
-      publications.filter((publication) =>
+      allPublications.filter((publication) =>
         publication.Title.toLowerCase().includes(searchInput.toLowerCase())
       )
     );
   };
+
+  const filterPublications = (filterParam, value) => {
+    if (filterParam == "year") {
+      setYear(value);
+      if (value == 0) {
+        setPublications(allPublications);
+        return;
+      }
+      setPublications(allPublications.filter((pub) => pub.Year == value));
+      return;
+    }
+    if (filterParam == "type") {
+      setType(value);
+      if (value == "all") {
+        setPublications(allPublications);
+        return;
+      }
+      setPublications(allPublications.filter((pub) => pub.Type == value));
+      return;
+    }
+    if (filterParam == "topic") {
+      setTopic(value);
+      if (value == "all") {
+        setPublications(allPublications);
+        return;
+      }
+      setPublications(allPublications.filter((pub) => pub.Topic == value));
+      return;
+    }
+  };
+
   useEffect(() => {
-    fetchPublications();
-  }, []);
+    console.log({ publications });
+  }, [publications]);
 
   return (
     <div className="homePage">
@@ -79,41 +117,82 @@ function Home() {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
               >
-                <ListItemButton
-                  sx={{
-                    borderBottom: "1px solid black",
-                  }}
-                >
-                  <ListItemText primary="Year" />
-                  <ListItemIcon>
-                    <ExpandMore />
-                  </ListItemIcon>
-                </ListItemButton>
-                <ListItemButton
-                  sx={{
-                    borderBottom: "1px solid black",
-                  }}
-                >
-                  <ListItemText primary="Type" />
-                  <ListItemIcon>
-                    <ExpandMore />
-                  </ListItemIcon>
-                </ListItemButton>
-                <ListItemButton
-                  sx={{
-                    borderBottom: "1px solid black",
-                  }}
-                >
-                  <ListItemText primary="Topic" />
-                  <ListItemIcon>
-                    <ExpandMore />
-                  </ListItemIcon>
-                </ListItemButton>
-                {/* <ListItemButton
-                  sx={{
-                    borderBottom: "1px solid black",
-                  }}
-                > */}
+                <ListItem sx={{ borderBottom: "1px solid black" }}>
+                  <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
+                    Year
+                  </InputLabel>
+                  <Select
+                    sx={{
+                      width: "80%",
+                      boxShadow: "none",
+                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                    }}
+                    labelId="demo-customized-select-label"
+                    id="demo-customized-select"
+                    disableUnderline
+                    value={year}
+                    onChange={(e) => {
+                      filterPublications("year", e.target.value);
+                    }}
+                  >
+                    <MenuItem value={0}>All</MenuItem>
+                    <MenuItem value={2023}>2023</MenuItem>
+                    <MenuItem value={2022}>2022</MenuItem>
+                    <MenuItem value={2021}>2021</MenuItem>
+                  </Select>
+                </ListItem>
+
+                <ListItem sx={{ borderBottom: "1px solid black" }}>
+                  <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
+                    Type
+                  </InputLabel>
+                  <Select
+                    sx={{
+                      width: "80%",
+                      boxShadow: "none",
+                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                    }}
+                    labelId="demo-customized-select-label"
+                    id="demo-customized-select"
+                    disableUnderline
+                    value={type}
+                    onChange={(e) => {
+                      filterPublications("type", e.target.value);
+                    }}
+                  >
+                    <MenuItem value="all">All</MenuItem>
+                    <MenuItem value={"book"}>Book</MenuItem>
+                    <MenuItem value={"book_chapter"}>Book Chapter</MenuItem>
+                    <MenuItem value={"journal_article"}>
+                      Journal Article
+                    </MenuItem>
+                  </Select>
+                </ListItem>
+
+                <ListItem sx={{ borderBottom: "1px solid black" }}>
+                  <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
+                    Topic
+                  </InputLabel>
+                  <Select
+                    sx={{
+                      width: "80%",
+                      boxShadow: "none",
+                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                    }}
+                    labelId="demo-customized-select-label"
+                    id="demo-customized-select"
+                    disableUnderline
+                    value={topic}
+                    onChange={(e) => {
+                      filterPublications("topic", e.target.value);
+                    }}
+                  >
+                    <MenuItem value="all">All</MenuItem>
+                    <MenuItem value={"hate"}>Hate</MenuItem>
+                    <MenuItem value={"morals"}>Morals</MenuItem>
+                  </Select>
+                </ListItem>
+
                 <div
                   style={{
                     display: "inline-flex",
@@ -154,7 +233,7 @@ function Home() {
                   <nav aria-label="main mailbox folders">
                     <List>
                       {publications.map((pub) => (
-                        <ListItem>
+                        <ListItem key={pub.key}>
                           <Article
                             Title={pub.Title}
                             Collaborators={pub.Collaborators}

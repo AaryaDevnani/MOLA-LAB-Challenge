@@ -30,36 +30,6 @@ router.post("/add", async (req, res) => {
   }
 });
 
-// router.post("/files", async (req, res) => {
-//   let paths = [];
-//   console.log("here");
-//   try {
-//     if (!req.files) {
-//       res.status(400).json({ body: "Files not found" });
-//       return;
-//     }
-
-//     const files = req.files;
-
-//     Object.keys(files).forEach((key) => {
-//       const path = `/Users/aaryadevnani/Documents/Projects/MOLA-Lab Challenge/frontend/Server/Routes/files/${files[key].name}`;
-//       files[key].mv(path, (err) => {
-//         if (err) {
-//           return res.status(500).json({ status: "error", message: err });
-//         } else {
-//           reader = fs.readFile(path, (err, data) => {
-//             console.log(err);
-//             console.log(data.toString());
-//           });
-//         }
-//       });
-//     });
-
-//     res.status(200).json({ body: "Files Uploaded" });
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
 router.post("/files", async (req, res) => {
   let results = [];
   const { bibs } = req.body;
@@ -84,8 +54,8 @@ router.post("/files", async (req, res) => {
               Journal: journal,
               Bib: "",
               Year: bibJSON.entryTags.year,
-              Type: "",
-              Topic: "",
+              Type: bibJSON.entryTags.type ? bibJSON.entryTags.type : "",
+              Topic: bibJSON.entryTags.topic ? bibJSON.entryTags.topic : "",
               Key: bibJSON.citationKey,
             });
             const titleExist = await Publication.findOne({
