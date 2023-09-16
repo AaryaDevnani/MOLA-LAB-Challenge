@@ -34,7 +34,7 @@ jobs:
       - name: Deploy
         run: |
           gcloud run deploy mola \
-          --region europe-west1 \
+          --region eus-west2-a \
           --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/mola \
           --platform managed \
           --allow-unauthenticated \
