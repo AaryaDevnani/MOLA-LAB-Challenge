@@ -78,7 +78,7 @@ function SignUp() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  width="50%"
                   id="firstName"
                   label="First Name"
                   name="firstName"
@@ -92,7 +92,7 @@ function SignUp() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  width="50%"
                   id="lastName"
                   label="Last Name"
                   name="lastName"

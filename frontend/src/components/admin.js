@@ -4,8 +4,21 @@ import UserContext from "../userContext";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import FileUpload from "./fileUpload";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
 
 function Admin() {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    severity: "",
+  });
+
   const [users, setUsers] = useState([]);
 
   const { userLoggedIn } = useContext(UserContext);
@@ -13,12 +26,16 @@ function Admin() {
   const handleClick = async (event, cellValues) => {
     // console.log(cellValues.row);
     if (cellValues.row.email == userLoggedIn.userData.email) {
-      console.log("Cannot Demote Self");
+      // console.log("Cannot Demote Self");
+      setToast({
+        open: true,
+        message: "Cannot Demote Self",
+        severity: "error",
+      });
     } else {
       let action = "";
       if (cellValues.row.isAdmin) {
         action = "removeadmin";
-        //   console.log(await response.json());
       } else {
         action = "makeadmin";
       }
@@ -37,7 +54,15 @@ function Admin() {
       );
       let res = await response.json();
       console.log(res);
+      if (res.modifiedCount == 1) {
+        setToast({
+          open: true,
+          message: "Users admin priveleges changed successfully",
+          severity: "success",
+        });
+      }
     }
+    fetchUsers();
   };
 
   const fetchUsers = async () => {
@@ -62,7 +87,7 @@ function Admin() {
 
   useEffect(() => {
     fetchUsers();
-  }, [users]);
+  }, [toast]);
 
   const columns = [
     // { field: "id", headerName: "Email", width: 70 },
@@ -109,11 +134,6 @@ function Admin() {
               columns={columns}
               getRowId={(row) => row.email}
               align="center"
-              // sx={{
-              //   alignItems: "center",
-              //   textAlign: "center",
-              //   justifyContent: "center",
-              // }}
               initialState={{
                 pagination: {
                   paginationModel: { page: 0, pageSize: 5 },
@@ -126,6 +146,23 @@ function Admin() {
           </>
         )}
       </div>
+      <Box sx={{ width: 500 }}>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={toast.open}
+          autoHideDuration={6000}
+          key={"topcenter"}
+        >
+          <Alert
+            onClose={() => {
+              setToast({ open: false, message: "", severity: "" });
+            }}
+            severity={toast.severity}
+          >
+            {toast.message}
+          </Alert>
+        </Snackbar>
+      </Box>
     </div>
   );
 }

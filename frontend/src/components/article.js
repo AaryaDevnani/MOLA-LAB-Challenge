@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles/article.css";
-function Article({ Title, Collaborators, Year, Journal, bib }) {
+function Article({ Title, Collaborators, Year, Journal, bib, key }) {
   return (
-    <div>
+    <div key={key}>
       <a className="article-title">{Title}</a>
       <div className="article-meta">
         {Collaborators}. {Title}. ({Year})<i> {Journal}</i>

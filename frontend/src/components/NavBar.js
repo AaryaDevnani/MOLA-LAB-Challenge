@@ -93,7 +93,7 @@ function NavBar(props) {
           disablePadding
           sx={{ justifyContent: "center" }}
         >
-          <NavLink className="mobileList" to={"/publications"}>
+          <NavLink className="mobileList" to={"/"} onClick={handleDrawerToggle}>
             <ListItemText
               primary="Publications"
               sx={mobileNavMenu}
@@ -108,7 +108,11 @@ function NavBar(props) {
               disablePadding
               sx={{ justifyContent: "center" }}
             >
-              <NavLink className="mobileList" to={"/login"}>
+              <NavLink
+                className="mobileList"
+                to={"/login"}
+                onClick={handleDrawerToggle}
+              >
                 <ListItemText
                   primary="Login"
                   sx={mobileNavMenu}
@@ -121,7 +125,11 @@ function NavBar(props) {
               disablePadding
               sx={{ justifyContent: "center" }}
             >
-              <NavLink className="mobileList" to={"/signup"}>
+              <NavLink
+                className="mobileList"
+                to={"/signup"}
+                onClick={handleDrawerToggle}
+              >
                 <ListItemText
                   primary="Signup"
                   sx={mobileNavMenu}
@@ -138,7 +146,11 @@ function NavBar(props) {
                 disablePadding
                 sx={{ justifyContent: "center" }}
               >
-                <NavLink className="mobileList" to={"/admin"}>
+                <NavLink
+                  className="mobileList"
+                  to={"/admin"}
+                  onClick={handleDrawerToggle}
+                >
                   <ListItemText
                     primary="Admin"
                     sx={mobileNavMenu}
@@ -153,7 +165,11 @@ function NavBar(props) {
               disablePadding
               sx={{ justifyContent: "center" }}
             >
-              <NavLink className="mobileList" to={"/profile"}>
+              <NavLink
+                className="mobileList"
+                to={"/profile"}
+                onClick={handleDrawerToggle}
+              >
                 <ListItemText
                   primary="Profile"
                   sx={mobileNavMenu}

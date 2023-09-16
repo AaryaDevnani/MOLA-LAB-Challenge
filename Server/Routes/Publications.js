@@ -61,43 +61,54 @@ router.post("/add", async (req, res) => {
 //   }
 // });
 router.post("/files", async (req, res) => {
-  const { bibs } = req.body;
-  // console.log(req.body);
-  // let sample = bibtexParse.toJSON(bibs[0]);
-  // console.log(bibs);
   let results = [];
-  bibs.map(async (bib) => {
-    bibJSON = bibtexParse.toJSON(bib)[0];
-    // console.log(bibJSON.entryTags);
-    let journal = "";
-    if (!bibJSON.entryTags.publisher && !bibJSON.entryTags.journal) {
-      journal = " ";
-    } else if (!bibJSON.entryTags.journal) {
-      journal = bibJSON.entryTags.publisher;
-    } else {
-      journal = bibJSON.entryTags.journal;
-    }
-
-    let publication = new Publication({
-      Title: bibJSON.entryTags.title,
-      Collaborators: bibJSON.entryTags.author,
-      Journal: journal,
-      Bib: "",
-      Year: bibJSON.entryTags.year,
-      Type: "",
-      Topic: "",
-      Key: bibJSON.citationKey,
+  const { bibs } = req.body;
+  let newArticle;
+  try {
+    let temp = await Promise.all(
+      bibs.map(async (bib) => {
+        return new Promise(async (resolve, reject) => {
+          bibsParsed = bibtexParse.toJSON(bib);
+          bibsParsed.forEach(async (bibJSON) => {
+            let journal = "";
+            if (!bibJSON.entryTags.publisher && !bibJSON.entryTags.journal) {
+              journal = " ";
+            } else if (!bibJSON.entryTags.journal) {
+              journal = bibJSON.entryTags.publisher;
+            } else {
+              journal = bibJSON.entryTags.journal;
+            }
+            let publication = new Publication({
+              Title: bibJSON.entryTags.title,
+              Collaborators: bibJSON.entryTags.author,
+              Journal: journal,
+              Bib: "",
+              Year: bibJSON.entryTags.year,
+              Type: "",
+              Topic: "",
+              Key: bibJSON.citationKey,
+            });
+            const titleExist = await Publication.findOne({
+              Key: bibJSON.citationKey,
+            });
+            if (!titleExist) {
+              newArticle = await publication.save();
+              resolve(newArticle);
+            } else {
+              reject("Title already exists");
+            }
+          });
+        });
+      })
+    );
+    let results = [];
+    temp.forEach((pub) => {
+      results.push(pub.Key);
     });
-    const titleExist = await Publication.findOne({ Key: bibJSON.citationKey });
-    if (!titleExist) {
-      newArticle = await publication.save();
-    }
-    results.push({
-      Key: bibJSON.entryTags.year,
-      Status: newArticle,
-    });
-  });
-  res.status(200).json(results);
+    res.status(201).json({ keys: results, error: "" });
+  } catch (error) {
+    res.status(500).json({ keys: [], error: error });
+  }
 });
 
 router.get("/get", async (req, res) => {
