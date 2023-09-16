@@ -8,12 +8,12 @@ import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
 import "./styles/nav.css";
 
 function NavBar(props) {
@@ -52,6 +52,16 @@ function NavBar(props) {
     fontSize: "30px",
     textAlign: "center",
     fontWeight: "700",
+    justifyContent: "center",
+  };
+  const mobileNavMenuActive = {
+    color: "#000",
+    fontSize: "30px",
+    textAlign: "center",
+    fontWeight: "700",
+    justifyContent: "center",
+    textDecoration: "Underline",
+    textDecorationThickness: "1px",
   };
   const { userLoggedIn, logout } = useContext(UserContext);
 
@@ -65,16 +75,25 @@ function NavBar(props) {
   const location = useLocation().pathname;
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box sx={{ textAlign: "center" }}>
       <Typography
         sx={{ my: 2, fontFamily: '"Cabin", san-serif', fontSize: "25px" }}
       >
-        <div>Morality and Language Lab </div>
-        {/* <MenuIcon /> */}
+        <div className="mobileTitle">
+          <p>Morality and Language Lab</p>
+          <CloseIcon
+            sx={{ ml: 5, "&:hover": { cursor: "pointer" } }}
+            onClick={handleDrawerToggle}
+          />
+        </div>
       </Typography>
       <List sx={{ fontFamily: '"Cabin", san-serif' }}>
-        <ListItem key="Publications" disablePadding>
-          <NavLink to={"/publications"} style={{ textDecoration: "none" }}>
+        <ListItem
+          key="Publications"
+          disablePadding
+          sx={{ justifyContent: "center" }}
+        >
+          <NavLink className="mobileList" to={"/publications"}>
             <ListItemText
               primary="Publications"
               sx={mobileNavMenu}
@@ -84,8 +103,12 @@ function NavBar(props) {
         </ListItem>
         {!userLoggedIn.isAdmin && !userLoggedIn.isLoggedin ? (
           <>
-            <ListItem key="Login" disablePadding>
-              <NavLink to={"/login"} style={{ textDecoration: "none" }}>
+            <ListItem
+              key="Login"
+              disablePadding
+              sx={{ justifyContent: "center" }}
+            >
+              <NavLink className="mobileList" to={"/login"}>
                 <ListItemText
                   primary="Login"
                   sx={mobileNavMenu}
@@ -93,8 +116,12 @@ function NavBar(props) {
                 />
               </NavLink>
             </ListItem>
-            <ListItem key="Signup" disablePadding>
-              <NavLink to={"/signup"} style={{ textDecoration: "none" }}>
+            <ListItem
+              key="Signup"
+              disablePadding
+              sx={{ justifyContent: "center" }}
+            >
+              <NavLink className="mobileList" to={"/signup"}>
                 <ListItemText
                   primary="Signup"
                   sx={mobileNavMenu}
@@ -106,8 +133,12 @@ function NavBar(props) {
         ) : (
           <>
             {userLoggedIn.isAdmin && (
-              <ListItem key="Admin" disablePadding>
-                <NavLink to={"/admin"} style={{ textDecoration: "none" }}>
+              <ListItem
+                key="Admin"
+                disablePadding
+                sx={{ justifyContent: "center" }}
+              >
+                <NavLink className="mobileList" to={"/admin"}>
                   <ListItemText
                     primary="Admin"
                     sx={mobileNavMenu}
@@ -117,8 +148,12 @@ function NavBar(props) {
               </ListItem>
             )}
 
-            <ListItem key="Profile" disablePadding>
-              <NavLink to={"/profile"} style={{ textDecoration: "none" }}>
+            <ListItem
+              key="Profile"
+              disablePadding
+              sx={{ justifyContent: "center" }}
+            >
+              <NavLink className="mobileList" to={"/profile"}>
                 <ListItemText
                   primary="Profile"
                   sx={mobileNavMenu}
@@ -126,8 +161,17 @@ function NavBar(props) {
                 />
               </NavLink>
             </ListItem>
-            <ListItem key="Logout" disablePadding>
-              <NavLink to={"/logout"} style={{ textDecoration: "none" }}>
+            <ListItem
+              key="Logout"
+              disablePadding
+              sx={{ justifyContent: "center" }}
+            >
+              <NavLink
+                className="mobileList"
+                onClick={() => {
+                  logout();
+                }}
+              >
                 <ListItemText
                   primary="Logout"
                   sx={mobileNavMenu}
@@ -154,7 +198,7 @@ function NavBar(props) {
         className="toolbar"
         sx={{ backgroundColor: "#fff", boxShadow: "None", color: "#000" }}
       >
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           <NavLink to={"/"} style={{ textDecoration: "none", color: "black" }}>
             <Typography
               component="div"

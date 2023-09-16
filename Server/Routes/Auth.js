@@ -28,7 +28,7 @@ router.post("/mail", async (req, res) => {
     { firstName: firstName, lastName: lastName, email: email },
     process.env.SECRET_ACCESS_TOKEN
   );
-  generatedURL = `http://localhost:3000/setpassword?token=${token}`;
+  generatedURL = `https://mola-lab-challenge-dnkwjouc7q-uc.a.run.app/setpassword?token=${token}`;
 
   const html = `
       <p>Hi, ${firstName + " " + lastName}</p>

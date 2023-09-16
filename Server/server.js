@@ -40,6 +40,7 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 // Route imports
 const userRoute = require("./Routes/Auth");
 const publicationsRoute = require("./Routes/Publications");
+
 // Routes middlewares
 app.use("/api/user", userRoute);
 app.use("/api/publications", publicationsRoute);
