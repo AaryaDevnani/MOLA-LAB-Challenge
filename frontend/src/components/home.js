@@ -202,16 +202,17 @@ function Home(props) {
             target="search"
             value={searchInput}
             onChange={handleOnSearchChange}
+            sx={{ margin: "15px" }}
           />
           <SearchIcon
-            sx={{ cursor: "pointer", ml: "20px" }}
+            sx={{ cursor: "pointer", ml: "55px" }}
             onClick={handleOnSearchChange}
           />
           <RestartIcon sx={{ cursor: "pointer" }} onClick={fetchPublications} />
         </div>
       </List>
       <CloseIcon
-        sx={{ ml: 5, "&:hover": { cursor: "pointer" } }}
+        sx={{ mt: "25px", "&:hover": { cursor: "pointer" } }}
         onClick={handleDrawerToggle}
       />
     </Box>
