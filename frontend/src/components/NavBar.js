@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import UserContext from "../userContext";
 import AppBar from "@mui/material/AppBar";
@@ -66,7 +66,7 @@ function NavBar(props) {
   const { userLoggedIn, logout } = useContext(UserContext);
 
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);

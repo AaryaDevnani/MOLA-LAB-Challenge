@@ -9,16 +9,26 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
 import "./styles/home.css";
+import Drawer from "@mui/material/Drawer";
 import Article from "./article";
+import CloseIcon from "@mui/icons-material/Close";
 
-function Home() {
+function Home(props) {
   const [searchInput, setSearchInput] = useState("");
   const [allPublications, setAllPublications] = useState([]);
   const [publications, setPublications] = useState([]);
   const [year, setYear] = useState(0);
   const [type, setType] = useState("");
   const [topic, setTopic] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { window } = props;
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+
   const fetchPublications = async () => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URI}api/publications/get`,
@@ -91,10 +101,143 @@ function Home() {
     console.log({ publications });
   }, [publications]);
 
+  const drawer = (
+    <Box sx={{ textAlign: "center" }}>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 360,
+          bgcolor: "background.paper",
+        }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        <ListItem sx={{ borderBottom: "1px solid black" }}>
+          <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
+            Year
+          </InputLabel>
+          <Select
+            sx={{
+              width: "80%",
+              boxShadow: "none",
+              ".MuiOutlinedInput-notchedOutline": { border: 0 },
+            }}
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            disableUnderline
+            value={year}
+            onChange={(e) => {
+              filterPublications("year", e.target.value);
+            }}
+          >
+            <MenuItem value={0}>All</MenuItem>
+            <MenuItem value={2023}>2023</MenuItem>
+            <MenuItem value={2022}>2022</MenuItem>
+            <MenuItem value={2021}>2021</MenuItem>
+          </Select>
+        </ListItem>
+
+        <ListItem sx={{ borderBottom: "1px solid black" }}>
+          <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
+            Type
+          </InputLabel>
+          <Select
+            sx={{
+              width: "80%",
+              boxShadow: "none",
+              ".MuiOutlinedInput-notchedOutline": { border: 0 },
+            }}
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            disableUnderline
+            value={type}
+            onChange={(e) => {
+              filterPublications("type", e.target.value);
+            }}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value={"book"}>Book</MenuItem>
+            <MenuItem value={"book_chapter"}>Book Chapter</MenuItem>
+            <MenuItem value={"journal_article"}>Journal Article</MenuItem>
+          </Select>
+        </ListItem>
+
+        <ListItem sx={{ borderBottom: "1px solid black" }}>
+          <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
+            Topic
+          </InputLabel>
+          <Select
+            sx={{
+              width: "80%",
+              boxShadow: "none",
+              ".MuiOutlinedInput-notchedOutline": { border: 0 },
+            }}
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            disableUnderline
+            value={topic}
+            onChange={(e) => {
+              filterPublications("topic", e.target.value);
+            }}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value={"hate"}>Hate</MenuItem>
+            <MenuItem value={"morals"}>Morals</MenuItem>
+          </Select>
+        </ListItem>
+
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            borderBottom: "1px solid",
+            width: "100%",
+          }}
+        >
+          <TextField
+            InputProps={{ disableUnderline: true }}
+            id="standard-basic"
+            label="Search"
+            variant="standard"
+            target="search"
+            value={searchInput}
+            onChange={handleOnSearchChange}
+          />
+          <SearchIcon
+            sx={{ cursor: "pointer", ml: "20px" }}
+            onClick={handleOnSearchChange}
+          />
+          <RestartIcon sx={{ cursor: "pointer" }} onClick={fetchPublications} />
+        </div>
+      </List>
+      <CloseIcon
+        sx={{ ml: 5, "&:hover": { cursor: "pointer" } }}
+        onClick={handleDrawerToggle}
+      />
+    </Box>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
   return (
     <div className="homePage">
       <div className="title">Publications</div>
       <div className="gridStart">
+        <Button
+          type="Filters"
+          // fullWidth
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            display: { lg: "none", md: "none", sm: "block", xs: "block" },
+          }}
+          onClick={handleDrawerToggle}
+          // primary="Filters"
+        >
+          Filters
+        </Button>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container rowSpacing={1} columnSpacing={3}>
             <Grid
@@ -252,6 +395,25 @@ function Home() {
           </Grid>
         </Box>
       </div>
+      <Drawer
+        container={container}
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: "block", sm: "none" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: "100vw",
+            alignContent: "left",
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
     </div>
   );
 }
