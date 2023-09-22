@@ -89,4 +89,12 @@ router.get("/get", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
+
+router.get("/getfilters", async (req, res) => {
+  let topics = await Publication.distinct("Topic");
+  let types = await Publication.distinct("Type");
+  let years = await Publication.distinct("Year");
+  let resp = { years: years, types: types, topics: topics };
+  res.status(200).json(resp);
+});
 module.exports = router;
