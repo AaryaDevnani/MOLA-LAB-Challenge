@@ -20,8 +20,11 @@ function Home(props) {
   const [allPublications, setAllPublications] = useState([]);
   const [publications, setPublications] = useState([]);
   const [year, setYear] = useState(0);
-  const [type, setType] = useState("");
-  const [topic, setTopic] = useState("");
+  const [type, setType] = useState("all");
+  const [topic, setTopic] = useState("all");
+  const [yearValues, setYearValues] = useState([]);
+  const [topicValues, setTopicValues] = useState([]);
+  const [typeValues, setTypeValues] = useState([]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { window } = props;
 
@@ -45,8 +48,24 @@ function Home(props) {
     }
   };
 
+  const getFilterValues = async () => {
+    console.log("whee");
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URI}api/publications/getfilters`,
+      {
+        method: "GET",
+      }
+    );
+    let res = await response.json();
+    console.log(res);
+    setYearValues(res.years.reverse());
+    setTopicValues(res.topics);
+    setTypeValues(res.types);
+  };
+
   useEffect(() => {
     fetchPublications();
+    getFilterValues();
   }, []);
 
   const handleOnSearchChange = (e) => {
@@ -67,34 +86,39 @@ function Home(props) {
     );
   };
 
-  const filterPublications = (filterParam, value) => {
-    if (filterParam == "year") {
-      setYear(value);
-      if (value == 0) {
-        setPublications(allPublications);
-        return;
-      }
-      setPublications(allPublications.filter((pub) => pub.Year == value));
-      return;
+  const filterPublications = () => {
+    let filteredPublications = allPublications;
+    if (year !== 0) {
+      filteredPublications = filteredPublications.filter(
+        (pub) => pub.Year == year
+      );
     }
-    if (filterParam == "type") {
-      setType(value);
-      if (value == "all") {
-        setPublications(allPublications);
-        return;
-      }
-      setPublications(allPublications.filter((pub) => pub.Type == value));
-      return;
+    if (type !== "all") {
+      filteredPublications = filteredPublications.filter(
+        (pub) => pub.Type == type
+      );
     }
-    if (filterParam == "topic") {
-      setTopic(value);
-      if (value == "all") {
-        setPublications(allPublications);
-        return;
-      }
-      setPublications(allPublications.filter((pub) => pub.Topic == value));
-      return;
+    if (topic !== "all") {
+      filteredPublications = filteredPublications.filter(
+        (pub) => pub.Topic == topic
+      );
     }
+    setPublications(filteredPublications);
+  };
+
+  useEffect(() => {
+    console.log({ year, type, topic });
+    filterPublications();
+  }, [year, type, topic]);
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value);
+  };
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
+  };
+  const handleTopicChange = (e) => {
+    setTopic(e.target.value);
   };
 
   useEffect(() => {
@@ -106,83 +130,65 @@ function Home(props) {
       <List
         sx={{
           width: "100%",
-          maxWidth: 360,
           bgcolor: "background.paper",
         }}
         component="nav"
         aria-labelledby="nested-list-subheader"
       >
         <ListItem sx={{ borderBottom: "1px solid black" }}>
-          <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
-            Year
-          </InputLabel>
+          <InputLabel sx={{ mr: 2 }}>Year</InputLabel>
           <Select
             sx={{
               width: "80%",
               boxShadow: "none",
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
             }}
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
             disableUnderline
             value={year}
-            onChange={(e) => {
-              filterPublications("year", e.target.value);
-            }}
+            onChange={handleYearChange}
           >
             <MenuItem value={0}>All</MenuItem>
-            <MenuItem value={2023}>2023</MenuItem>
-            <MenuItem value={2022}>2022</MenuItem>
-            <MenuItem value={2021}>2021</MenuItem>
+            {yearValues.map((year) => (
+              <MenuItem value={year}>{year}</MenuItem>
+            ))}
           </Select>
         </ListItem>
 
         <ListItem sx={{ borderBottom: "1px solid black" }}>
-          <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
-            Type
-          </InputLabel>
+          <InputLabel sx={{ mr: 2 }}>Type</InputLabel>
           <Select
             sx={{
               width: "80%",
               boxShadow: "none",
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
             }}
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
             disableUnderline
             value={type}
-            onChange={(e) => {
-              filterPublications("type", e.target.value);
-            }}
+            onChange={handleTypeChange}
           >
             <MenuItem value="all">All</MenuItem>
-            <MenuItem value={"book"}>Book</MenuItem>
-            <MenuItem value={"book_chapter"}>Book Chapter</MenuItem>
-            <MenuItem value={"journal_article"}>Journal Article</MenuItem>
+            {typeValues.map((type) => (
+              <MenuItem value={type}>{type}</MenuItem>
+            ))}
           </Select>
         </ListItem>
 
         <ListItem sx={{ borderBottom: "1px solid black" }}>
-          <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
-            Topic
-          </InputLabel>
+          <InputLabel sx={{ mr: 2 }}>Topic</InputLabel>
           <Select
             sx={{
               width: "80%",
               boxShadow: "none",
               ".MuiOutlinedInput-notchedOutline": { border: 0 },
             }}
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
             disableUnderline
             value={topic}
-            onChange={(e) => {
-              filterPublications("topic", e.target.value);
-            }}
+            onChange={handleTopicChange}
           >
             <MenuItem value="all">All</MenuItem>
-            <MenuItem value={"hate"}>Hate</MenuItem>
-            <MenuItem value={"morals"}>Morals</MenuItem>
+            {topicValues.map((topic) => (
+              <MenuItem value={topic}>{topic}</MenuItem>
+            ))}
           </Select>
         </ListItem>
 
@@ -262,78 +268,59 @@ function Home(props) {
                 aria-labelledby="nested-list-subheader"
               >
                 <ListItem sx={{ borderBottom: "1px solid black" }}>
-                  <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
-                    Year
-                  </InputLabel>
+                  <InputLabel sx={{ mr: 2 }}>Year</InputLabel>
                   <Select
                     sx={{
                       width: "80%",
                       boxShadow: "none",
                       ".MuiOutlinedInput-notchedOutline": { border: 0 },
                     }}
-                    labelId="demo-customized-select-label"
-                    id="demo-customized-select"
                     disableUnderline
                     value={year}
-                    onChange={(e) => {
-                      filterPublications("year", e.target.value);
-                    }}
+                    onChange={handleYearChange}
                   >
                     <MenuItem value={0}>All</MenuItem>
-                    <MenuItem value={2023}>2023</MenuItem>
-                    <MenuItem value={2022}>2022</MenuItem>
-                    <MenuItem value={2021}>2021</MenuItem>
+                    {yearValues.map((year) => (
+                      <MenuItem value={year}>{year}</MenuItem>
+                    ))}
                   </Select>
                 </ListItem>
 
                 <ListItem sx={{ borderBottom: "1px solid black" }}>
-                  <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
-                    Type
-                  </InputLabel>
+                  <InputLabel sx={{ mr: 2 }}>Type</InputLabel>
                   <Select
                     sx={{
                       width: "80%",
                       boxShadow: "none",
                       ".MuiOutlinedInput-notchedOutline": { border: 0 },
                     }}
-                    labelId="demo-customized-select-label"
-                    id="demo-customized-select"
                     disableUnderline
                     value={type}
-                    onChange={(e) => {
-                      filterPublications("type", e.target.value);
-                    }}
+                    onChange={handleTypeChange}
                   >
                     <MenuItem value="all">All</MenuItem>
-                    <MenuItem value={"book"}>Book</MenuItem>
-                    <MenuItem value={"book_chapter"}>Book Chapter</MenuItem>
-                    <MenuItem value={"journal_article"}>
-                      Journal Article
-                    </MenuItem>
+                    {typeValues.map((type) => (
+                      <MenuItem value={type}>{type}</MenuItem>
+                    ))}
                   </Select>
                 </ListItem>
 
                 <ListItem sx={{ borderBottom: "1px solid black" }}>
-                  <InputLabel sx={{ mr: 2 }} id="demo-customized-select-label">
-                    Topic
-                  </InputLabel>
+                  <InputLabel sx={{ mr: 2 }}>Topic</InputLabel>
                   <Select
                     sx={{
                       width: "80%",
                       boxShadow: "none",
                       ".MuiOutlinedInput-notchedOutline": { border: 0 },
                     }}
-                    labelId="demo-customized-select-label"
-                    id="demo-customized-select"
                     disableUnderline
                     value={topic}
-                    onChange={(e) => {
-                      filterPublications("topic", e.target.value);
-                    }}
+                    onChange={handleTopicChange}
                   >
                     <MenuItem value="all">All</MenuItem>
-                    <MenuItem value={"hate"}>Hate</MenuItem>
-                    <MenuItem value={"morals"}>Morals</MenuItem>
+                    {topicValues.map((topic) => (
+                      <MenuItem value={topic}>{topic}</MenuItem>
+                    ))}
                   </Select>
                 </ListItem>
 
@@ -353,9 +340,10 @@ function Home(props) {
                     target="search"
                     value={searchInput}
                     onChange={handleOnSearchChange}
+                    sx={{ margin: "15px" }}
                   />
                   <SearchIcon
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: "pointer", ml: "30px" }}
                     onClick={handleOnSearchChange}
                   />
                   <RestartIcon
@@ -407,8 +395,9 @@ function Home(props) {
         sx={{
           display: { xs: "block", sm: "none" },
           "& .MuiDrawer-paper": {
+            mt: "80px",
             boxSizing: "border-box",
-            width: "100vw",
+            width: "90vw",
             alignContent: "left",
           },
         }}

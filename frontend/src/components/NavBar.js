@@ -344,6 +344,7 @@ function NavBar(props) {
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
+          anchor="right"
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
