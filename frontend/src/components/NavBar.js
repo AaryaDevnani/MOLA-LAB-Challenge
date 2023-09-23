@@ -19,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import "./styles/nav.css";
 
 function NavBar(props) {
-  const molaRed = "#C63210";
+  // Styling Constants
   const navButtonStyle = {
     fontSize: "15px",
     color: "#000",
@@ -28,23 +28,23 @@ function NavBar(props) {
     "&:hover": {
       backgroundColor: "#fff",
       textDecoration: "Underline",
-      textDecorationColor: molaRed,
+      textDecorationColor: "#C63210",
       textDecorationThickness: "1px",
-      color: molaRed,
+      color: "#C63210",
     },
   };
   const navActiveStyle = {
-    color: molaRed,
+    color: "#C63210",
     fontSize: "15px",
     fontFamily: " Cabin, sans-serif",
     fontWeight: "700",
     textDecoration: "Underline",
-    textDecorationColor: molaRed,
+    textDecorationColor: "#C63210",
     textDecorationThickness: "1px",
     "&:hover": {
       backgroundColor: "#fff",
       textDecoration: "Underline",
-      textDecorationColor: molaRed,
+      textDecorationColor: "#C63210",
       textDecorationThickness: "1px",
       transition: "all .5s ease-in",
     },
@@ -65,17 +65,20 @@ function NavBar(props) {
     textDecoration: "Underline",
     textDecorationThickness: "1px",
   };
+
+  // Context API Hooks
   const { userLoggedIn, logout } = useContext(UserContext);
 
+  // Mobile Menu handling
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
   const location = useLocation().pathname;
 
+  // Mobile Drawer
   const drawer = (
     <Box sx={{ textAlign: "center" }}>
       <Typography
@@ -237,7 +240,7 @@ function NavBar(props) {
               sx={{
                 ml: { lg: "50px", md: "50px" },
                 fontSize: { lg: "37px", md: "25px", sm: "23px", xs: "23px" },
-                "&:hover": { color: molaRed, transition: "all .5s ease-in" },
+                "&:hover": { color: "#C63210", transition: "all .5s ease-in" },
               }}
             >
               Morality and Language Lab
@@ -249,7 +252,7 @@ function NavBar(props) {
                   fontWeight: "700",
                   textAlign: "center",
                   display: { xs: "None", sm: "None", md: "block", lg: "block" },
-                  color: molaRed,
+                  color: "#C63210",
                 }}
               >
                 UNIVERSITY OF SOUTHERN CALIFORNIA

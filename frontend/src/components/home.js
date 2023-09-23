@@ -18,6 +18,7 @@ import Article from "./article";
 import "./styles/home.css";
 
 function Home(props) {
+  // State hooks
   const [searchInput, setSearchInput] = useState("");
   const [allPublications, setAllPublications] = useState([]);
   const [publications, setPublications] = useState([]);
@@ -30,10 +31,12 @@ function Home(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { window } = props;
 
+  //Filters Drawer Handler
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  // Get and Set all Publications
   const fetchPublications = async () => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URI}api/publications/get`,
@@ -46,12 +49,13 @@ function Home(props) {
       setPublications(data.articles);
       setAllPublications(data.articles);
     } else {
-      console.log(response);
+      // console.log(response);
     }
   };
 
+  // Get and set all filter values
   const getFilterValues = async () => {
-    console.log("whee");
+    // console.log("whee");
     const response = await fetch(
       `${process.env.REACT_APP_API_URI}api/publications/getfilters`,
       {
@@ -59,16 +63,11 @@ function Home(props) {
       }
     );
     let res = await response.json();
-    console.log(res);
+    //console.log(res);
     setYearValues(res.years.reverse());
     setTopicValues(res.topics);
     setTypeValues(res.types);
   };
-
-  useEffect(() => {
-    fetchPublications();
-    getFilterValues();
-  }, []);
 
   const handleOnSearchChange = (e) => {
     setSearchInput(e.target.value);
@@ -80,6 +79,7 @@ function Home(props) {
     }
   };
 
+  // Search
   const searchFunction = () => {
     setPublications(
       allPublications.filter((publication) =>
@@ -88,31 +88,35 @@ function Home(props) {
     );
   };
 
+  // Reset Function
+  const resetHandler = () => {
+    setPublications(allPublications);
+    setYear(0);
+    setTopic("all");
+    setType("all");
+  };
+  // Filtering Function
   const filterPublications = () => {
     let filteredPublications = allPublications;
     if (year !== 0) {
       filteredPublications = filteredPublications.filter(
-        (pub) => pub.Year == year
+        (pub) => pub.Year === year
       );
     }
     if (type !== "all") {
       filteredPublications = filteredPublications.filter(
-        (pub) => pub.Type == type
+        (pub) => pub.Type === type
       );
     }
     if (topic !== "all") {
       filteredPublications = filteredPublications.filter(
-        (pub) => pub.Topic == topic
+        (pub) => pub.Topic === topic
       );
     }
     setPublications(filteredPublications);
   };
 
-  useEffect(() => {
-    console.log({ year, type, topic });
-    filterPublications();
-  }, [year, type, topic]);
-
+  // Filter Change Handlers
   const handleYearChange = (e) => {
     setYear(e.target.value);
   };
@@ -123,10 +127,19 @@ function Home(props) {
     setTopic(e.target.value);
   };
 
+  // Separate Use Effect only for filters
   useEffect(() => {
-    console.log({ publications });
-  }, [publications]);
+    filterPublications();
+  }, [year, type, topic]);
 
+  // Separate use effect only for search
+  useEffect(() => {}, [publications]);
+
+  // API Call UseEffect
+  useEffect(() => {
+    fetchPublications();
+    getFilterValues();
+  }, []);
   const drawer = (
     <Box sx={{ textAlign: "center" }}>
       <List
@@ -216,7 +229,7 @@ function Home(props) {
             sx={{ cursor: "pointer", ml: "55px" }}
             onClick={handleOnSearchChange}
           />
-          <RestartIcon sx={{ cursor: "pointer" }} onClick={fetchPublications} />
+          <RestartIcon sx={{ cursor: "pointer" }} onClick={resetHandler} />
         </div>
       </List>
       <CloseIcon

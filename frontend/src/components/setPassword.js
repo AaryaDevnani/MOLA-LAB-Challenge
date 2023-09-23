@@ -13,9 +13,13 @@ import {
 
 function SetPassword() {
   const location = useLocation();
+  // Fetch URL Params
   const token = new URLSearchParams(location.search).get("token");
+
+  // Context API Hooks
   const { finalUser, setFinalUser, setPassword } = useContext(UserContext);
 
+  // MUI Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -29,7 +33,7 @@ function SetPassword() {
     e.preventDefault();
     if (finalUser.password !== "") {
       let res = await setPassword(token);
-      if (res == 200) {
+      if (res === 200) {
         setToast({
           open: true,
           message: "Password set successfully",
@@ -44,13 +48,14 @@ function SetPassword() {
       }
     }
   };
+
   const handleOnChange = (e) => {
     e.preventDefault();
     setFinalUser({ ...finalUser, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    console.log("Effect", toast);
+    // console.log("Effect", toast);
   }, [toast]);
 
   return (

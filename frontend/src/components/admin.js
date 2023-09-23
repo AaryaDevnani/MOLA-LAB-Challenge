@@ -6,20 +6,25 @@ import { Box, Snackbar, Button } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 
 function Admin() {
+  // SnackBar Alerts
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  //SnackBar Toast State
   const [toast, setToast] = useState({
     open: false,
     message: "",
     severity: "",
   });
 
+  //UserTable users state
   const [users, setUsers] = useState([]);
 
+  //Validate user admin status
   const { userLoggedIn } = useContext(UserContext);
 
+  //handle promotion or demotion button click
   const handleClick = async (event, cellValues) => {
     // console.log(cellValues.row);
     if (cellValues.row.email == userLoggedIn.userData.email) {
@@ -50,7 +55,7 @@ function Admin() {
         }
       );
       let res = await response.json();
-      console.log(res);
+      // console.log(res);
       if (res.modifiedCount == 1) {
         setToast({
           open: true,
@@ -62,6 +67,7 @@ function Admin() {
     fetchUsers();
   };
 
+  //fetch all users
   const fetchUsers = async () => {
     let obj = { objectID: userLoggedIn.userData._id };
     const response = await fetch(
@@ -78,7 +84,7 @@ function Admin() {
       let data = await response.json();
       setUsers(data.output);
     } else {
-      console.log(response);
+      // console.log(response);
     }
   };
 
@@ -86,8 +92,8 @@ function Admin() {
     fetchUsers();
   }, [toast]);
 
+  // table headers
   const columns = [
-    // { field: "id", headerName: "Email", width: 70 },
     { field: "firstName", headerName: "First name", width: 130 },
     { field: "lastName", headerName: "Last name", width: 130 },
     { field: "isAdmin", headerName: "isAdmin", width: 70 },

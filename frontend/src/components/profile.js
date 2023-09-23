@@ -5,30 +5,33 @@ import MuiAlert from "@mui/material/Alert";
 import "./styles/profile.css";
 
 function Profile() {
+  // MUI SnackBar
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  // Password input states
   const [passwordReset, setPasswordReset] = useState({
     oldPassword: "",
     newPassword: "",
     confirmedPassword: "",
   });
-  //   const [oldPassword, setOldPassword] = useState("");
 
+  // MUI Alert States
   const [toast, setToast] = useState({
     open: false,
     message: "",
     severity: "",
   });
 
+  // Context Hooks
   const { userLoggedIn, deleteAccount } = useContext(UserContext);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(passwordReset);
+    // console.log(passwordReset);
     if (passwordReset.newPassword === passwordReset.confirmedPassword) {
-      console.log(passwordReset.newPassword);
+      // console.log(passwordReset.newPassword);
       const resetOptions = {
         method: "POST",
         body: JSON.stringify({
@@ -45,7 +48,7 @@ function Profile() {
         `${process.env.REACT_APP_API_URI}api/user/resetpassword`,
         resetOptions
       );
-      if (response.status == 200) {
+      if (response.status === 200) {
         setToast({
           open: true,
           message: "Password has been reset successfully.",
@@ -58,7 +61,7 @@ function Profile() {
           severity: "error",
         });
       }
-      console.log("reset");
+      // console.log("reset");
     } else {
       setToast({
         open: true,

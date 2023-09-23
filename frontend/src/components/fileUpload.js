@@ -6,22 +6,26 @@ import MuiAlert from "@mui/material/Alert";
 import "./styles/fileUpload.css";
 
 function FileUpload() {
+  //SnackBar Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  //SnackBar Toast State
   const [toast, setToast] = useState({
     open: false,
     message: "",
     severity: "",
   });
 
+  //File Upload States
   const [files, setFiles] = useState(null);
 
+  //Drag and Drop States
   const [dragActive, setDragActive] = useState(false);
-
   const inputRef = useRef(null);
 
+  //Drag and drop handling
   const handleDrag = function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -39,17 +43,18 @@ function FileUpload() {
     if (e.dataTransfer.files && e.dataTransfer.files) {
       const files = e.dataTransfer.files;
       const fileListAsArray = Array.from(files);
-      console.log(fileListAsArray, "Drop");
+      // console.log(fileListAsArray, "Drop");
       setFiles(fileListAsArray);
     }
   };
 
+  // input file handler
   const handleChange = function (e) {
     e.preventDefault();
     if (e.target.files && e.target.files) {
       const files = e.target.files;
       const fileListAsArray = Array.from(files);
-      console.log(fileListAsArray, "Change");
+      // console.log(fileListAsArray, "Change");
       setFiles(fileListAsArray);
     }
   };
@@ -60,6 +65,7 @@ function FileUpload() {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    // read file data and convert to an object of arrays
     if (files) {
       const fileListAsArray = Array.from(files).map(async (file) => {
         let reader = new FileReader();
@@ -82,7 +88,7 @@ function FileUpload() {
         }
       );
       let result = await response.json();
-      console.log(result);
+      // console.log(result);
       if ((result.error = "" || result.keys.length > 0)) {
         setToast({
           open: true,

@@ -54,7 +54,7 @@ function SignUp() {
 
   //UseEffect Hooks
   useEffect(() => {
-    console.log("Effect", toast);
+    // console.log("Effect", toast);
   }, [toast]);
 
   return (

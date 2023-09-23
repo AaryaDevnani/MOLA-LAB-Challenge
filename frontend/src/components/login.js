@@ -17,7 +17,7 @@ import MuiAlert from "@mui/material/Alert";
 
 function Login() {
   //context hooks
-  const { login, loginData, setLoginData, userLoggedIn, setUserLoggedIn } =
+  const { login, loginData, setLoginData, setUserLoggedIn } =
     useContext(UserContext);
 
   //Alerts MUI
@@ -25,6 +25,7 @@ function Login() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  //Toast states for alert
   const [toast, setToast] = useState({
     open: false,
     message: "",
@@ -34,10 +35,11 @@ function Login() {
   //nav Hooks
   const navigate = useNavigate();
 
+  // Submit login handler
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     let res = await login();
-    if (res.status == 201) {
+    if (res.status === 201) {
       setUserLoggedIn({
         isLoggedIn: true,
         isAdmin: res.body.isAdmin,
@@ -63,7 +65,7 @@ function Login() {
   };
 
   useEffect(() => {
-    console.log("Effect", toast);
+    // console.log("Effect", toast);
   }, [toast]);
 
   return (
