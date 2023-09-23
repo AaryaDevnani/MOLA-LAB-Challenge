@@ -3,6 +3,7 @@ const Publication = require("../Models/Publication");
 const router = express.Router();
 const bibtexParse = require("@orcid/bibtex-parse-js");
 
+// Add publication without bibtex
 router.post("/add", async (req, res) => {
   const { Title, Collaborators, Journal, Bib, Year, Type, Topic } = req.body;
   const titleExist = await Publication.findOne({ Title });
@@ -30,6 +31,7 @@ router.post("/add", async (req, res) => {
   }
 });
 
+// add publication using bibtex files
 router.post("/files", async (req, res) => {
   let results = [];
   const { bibs } = req.body;
@@ -81,6 +83,7 @@ router.post("/files", async (req, res) => {
   }
 });
 
+//fetch all publications
 router.get("/get", async (req, res) => {
   try {
     const articles = await Publication.find({});
@@ -90,6 +93,7 @@ router.get("/get", async (req, res) => {
   }
 });
 
+//fetch filter values
 router.get("/getfilters", async (req, res) => {
   let topics = await Publication.distinct("Topic");
   let types = await Publication.distinct("Type");

@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../userContext";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import {
+  Avatar,
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Snackbar,
+} from "@mui/material";
 
 function SignUp() {
   //MUI Alerts
@@ -30,7 +32,7 @@ function SignUp() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     let res = await sendMail();
-    if (res == 200) {
+    if (res === 200) {
       setToast({
         open: true,
         message: "Please check your email to set your password.",
@@ -52,7 +54,7 @@ function SignUp() {
 
   //UseEffect Hooks
   useEffect(() => {
-    console.log("Effect", toast);
+    // console.log("Effect", toast);
   }, [toast]);
 
   return (

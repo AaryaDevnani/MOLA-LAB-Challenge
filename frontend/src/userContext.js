@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
@@ -65,7 +64,6 @@ export function UserProvider({ children }) {
         requestOptions
       );
       if (response.status !== 201) {
-        console.log(response);
         return 400;
       }
       return 200;
@@ -88,7 +86,6 @@ export function UserProvider({ children }) {
       requestOptions
     );
     let responseBody = await response.json();
-    console.log(responseBody);
     return { status: response.status, body: responseBody };
   };
 
@@ -115,7 +112,6 @@ export function UserProvider({ children }) {
       requestOptions
     );
     let responseBody = await response.json();
-    console.log(responseBody);
     logout();
     return { status: response.status, body: responseBody };
   };

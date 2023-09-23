@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-
-const fileupload = require("express-fileupload");
 require("dotenv").config();
 const path = require("path");
+// const fileupload = require("express-fileupload");
 
 const PORT = 5000;
 
@@ -15,6 +14,7 @@ db.on("error", (err) => {
   console.error(err);
 });
 
+//To allow CORS
 var corsMiddleware = function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -29,12 +29,10 @@ var corsMiddleware = function (req, res, next) {
   next();
 };
 
-app.use(fileupload());
+// app.use(fileupload());
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// console.log(path.join(__dirname, "../frontend/build"));
-
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // Route imports
@@ -44,6 +42,7 @@ const publicationsRoute = require("./Routes/Publications");
 // Routes middlewares
 app.use("/api/user", userRoute);
 app.use("/api/publications", publicationsRoute);
+// to serve the react app via the server
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });

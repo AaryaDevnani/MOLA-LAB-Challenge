@@ -1,19 +1,25 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import UserContext from "../userContext";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import {
+  Button,
+  Box,
+  TextField,
+  Typography,
+  Container,
+  Snackbar,
+} from "@mui/material";
 
 function SetPassword() {
   const location = useLocation();
+  // Fetch URL Params
   const token = new URLSearchParams(location.search).get("token");
+
+  // Context API Hooks
   const { finalUser, setFinalUser, setPassword } = useContext(UserContext);
 
+  // MUI Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -27,7 +33,7 @@ function SetPassword() {
     e.preventDefault();
     if (finalUser.password !== "") {
       let res = await setPassword(token);
-      if (res == 200) {
+      if (res === 200) {
         setToast({
           open: true,
           message: "Password set successfully",
@@ -42,13 +48,14 @@ function SetPassword() {
       }
     }
   };
+
   const handleOnChange = (e) => {
     e.preventDefault();
     setFinalUser({ ...finalUser, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    console.log("Effect", toast);
+    // console.log("Effect", toast);
   }, [toast]);
 
   return (
