@@ -95,7 +95,6 @@ function Login() {
               name="email"
               type="email"
               autoComplete="email"
-              autoFocus
               value={loginData.email}
               onChange={handleOnChange}
             />
@@ -108,7 +107,6 @@ function Login() {
               name="password"
               autoComplete="password"
               type="password"
-              autoFocus
               value={loginData.password}
               onChange={handleOnChange}
             />
