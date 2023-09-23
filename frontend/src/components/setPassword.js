@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import UserContext from "../userContext";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import {
+  Button,
+  Box,
+  TextField,
+  Typography,
+  Container,
+  Snackbar,
+} from "@mui/material";
 
 function SetPassword() {
   const location = useLocation();

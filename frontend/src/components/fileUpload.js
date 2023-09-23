@@ -1,10 +1,9 @@
 import React, { useState, useRef } from "react";
-import "./styles/fileUpload.css";
-import Button from "@mui/material/Button";
 import UploadIcon from "../assets/file-upload.svg";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
+import { Snackbar, Button } from "@mui/material";
 import Box from "@mui/material/Box";
+import MuiAlert from "@mui/material/Alert";
+import "./styles/fileUpload.css";
 
 function FileUpload() {
   const Alert = React.forwardRef(function Alert(props, ref) {

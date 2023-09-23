@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import UserContext from "../userContext";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import {
+  AppBar,
+  CssBaseline,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import "./styles/nav.css";
 
@@ -96,7 +98,7 @@ function NavBar(props) {
           <NavLink className="mobileList" to={"/"} onClick={handleDrawerToggle}>
             <ListItemText
               primary="Publications"
-              sx={mobileNavMenu}
+              sx={location === "/" ? mobileNavMenuActive : mobileNavMenu}
               disableTypography
             />
           </NavLink>
@@ -115,7 +117,9 @@ function NavBar(props) {
               >
                 <ListItemText
                   primary="Login"
-                  sx={mobileNavMenu}
+                  sx={
+                    location === "/login" ? mobileNavMenuActive : mobileNavMenu
+                  }
                   disableTypography
                 />
               </NavLink>
@@ -132,7 +136,9 @@ function NavBar(props) {
               >
                 <ListItemText
                   primary="Signup"
-                  sx={mobileNavMenu}
+                  sx={
+                    location === "/signup" ? mobileNavMenuActive : mobileNavMenu
+                  }
                   disableTypography
                 />
               </NavLink>
@@ -153,7 +159,11 @@ function NavBar(props) {
                 >
                   <ListItemText
                     primary="Admin"
-                    sx={mobileNavMenu}
+                    sx={
+                      location === "/admin"
+                        ? mobileNavMenuActive
+                        : mobileNavMenu
+                    }
                     disableTypography
                   />
                 </NavLink>
@@ -172,7 +182,11 @@ function NavBar(props) {
               >
                 <ListItemText
                   primary="Profile"
-                  sx={mobileNavMenu}
+                  sx={
+                    location === "/profile"
+                      ? mobileNavMenuActive
+                      : mobileNavMenu
+                  }
                   disableTypography
                 />
               </NavLink>
@@ -255,7 +269,7 @@ function NavBar(props) {
               <Button
                 key="Publications"
                 disableRipple
-                sx={location == "/" ? navActiveStyle : navButtonStyle}
+                sx={location === "/" ? navActiveStyle : navButtonStyle}
               >
                 Publications
               </Button>
@@ -268,7 +282,7 @@ function NavBar(props) {
                       key="Admin"
                       disableRipple
                       sx={
-                        location == "/admin" ? navActiveStyle : navButtonStyle
+                        location === "/admin" ? navActiveStyle : navButtonStyle
                       }
                     >
                       Admin
@@ -280,7 +294,7 @@ function NavBar(props) {
                     key="Profile"
                     disableRipple
                     sx={
-                      location == "/profile" ? navActiveStyle : navButtonStyle
+                      location === "/profile" ? navActiveStyle : navButtonStyle
                     }
                   >
                     Profile
@@ -307,7 +321,7 @@ function NavBar(props) {
                     key="Login"
                     disableRipple
                     sx={
-                      location == "/profile" ? navActiveStyle : navButtonStyle
+                      location === "/profile" ? navActiveStyle : navButtonStyle
                     }
                   >
                     Login
@@ -318,7 +332,7 @@ function NavBar(props) {
                     key="Signup"
                     disableRipple
                     sx={
-                      location == "/profile" ? navActiveStyle : navButtonStyle
+                      location === "/profile" ? navActiveStyle : navButtonStyle
                     }
                   >
                     Signup

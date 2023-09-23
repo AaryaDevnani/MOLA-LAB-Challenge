@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import UserContext from "../userContext";
-import Button from "@mui/material/Button";
-import { DataGrid } from "@mui/x-data-grid";
 import FileUpload from "./fileUpload";
-import Snackbar from "@mui/material/Snackbar";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box, Snackbar, Button } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
 
 function Admin() {
   const Alert = React.forwardRef(function Alert(props, ref) {

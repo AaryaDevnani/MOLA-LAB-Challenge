@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../userContext";
-import Button from "@mui/material/Button";
-import "./styles/profile.css";
-import { Box, TextField } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import { Box, TextField, Snackbar, Button } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import "./styles/profile.css";
 
 function Profile() {
   const Alert = React.forwardRef(function Alert(props, ref) {

@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/article.css";
+
 function Article({ Title, Collaborators, Year, Journal, bib, key }) {
   return (
     <div key={key}>
