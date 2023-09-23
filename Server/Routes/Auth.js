@@ -3,9 +3,9 @@ const bcrypt = require("bcryptjs");
 const User = require("../Models/User");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
-const cors = require("cors");
 const router = express.Router();
 
+// Node mailer
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
@@ -46,7 +46,6 @@ router.post("/mail", async (req, res) => {
     res.status(201).json({ error: "" });
     console.log({ sent });
   } catch (error) {
-    //for cors
     res.status(400).json({ error });
     console.log(error);
   }
@@ -159,6 +158,7 @@ router.post("/makeAdmin", async (req, res) => {
     return res.status(200).json(output);
   }
 });
+
 //delete admin
 router.post("/removeAdmin", async (req, res) => {
   const { objectID, email } = req.body;
