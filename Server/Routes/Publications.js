@@ -55,7 +55,7 @@ router.post("/files", async (req, res) => {
                 Title: !bibJSON.entryTags.title ? "" : bibJSON.entryTags.title,
                 Collaborators: !bibJSON.entryTags.author
                   ? ""
-                  : !bibJSON.entryTags.author,
+                  : bibJSON.entryTags.author,
                 Journal: journal,
                 Bib: "",
                 Year: !bibJSON.entryTags.year ? "" : bibJSON.entryTags.year,

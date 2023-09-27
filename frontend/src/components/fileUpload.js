@@ -99,7 +99,7 @@ function FileUpload() {
         setToast({
           open: true,
           message:
-            "An error has occured with one or more of the files. Please try uploading all files again.",
+            "One or more files already exist in the database, the others have been uploaded successfully.",
           severity: "error",
         });
       }
