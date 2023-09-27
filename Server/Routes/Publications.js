@@ -40,36 +40,42 @@ router.post("/files", async (req, res) => {
     let temp = await Promise.all(
       bibs.map(async (bib) => {
         return new Promise(async (resolve, reject) => {
-          bibsParsed = bibtexParse.toJSON(bib);
-          bibsParsed.forEach(async (bibJSON) => {
-            let journal = "";
-            if (!bibJSON.entryTags.publisher && !bibJSON.entryTags.journal) {
-              journal = " ";
-            } else if (!bibJSON.entryTags.journal) {
-              journal = bibJSON.entryTags.publisher;
-            } else {
-              journal = bibJSON.entryTags.journal;
-            }
-            let publication = new Publication({
-              Title: bibJSON.entryTags.title,
-              Collaborators: bibJSON.entryTags.author,
-              Journal: journal,
-              Bib: "",
-              Year: bibJSON.entryTags.year,
-              Type: bibJSON.entryTags.type ? bibJSON.entryTags.type : "",
-              Topic: bibJSON.entryTags.topic ? bibJSON.entryTags.topic : "",
-              Key: bibJSON.citationKey,
+          try {
+            bibsParsed = bibtexParse.toJSON(bib);
+            bibsParsed.forEach(async (bibJSON) => {
+              let journal = "";
+              if (!bibJSON.entryTags.publisher && !bibJSON.entryTags.journal) {
+                journal = " ";
+              } else if (!bibJSON.entryTags.journal) {
+                journal = bibJSON.entryTags.publisher;
+              } else {
+                journal = bibJSON.entryTags.journal;
+              }
+              let publication = new Publication({
+                Title: !bibJSON.entryTags.title ? "" : bibJSON.entryTags.title,
+                Collaborators: !bibJSON.entryTags.author
+                  ? ""
+                  : !bibJSON.entryTags.author,
+                Journal: journal,
+                Bib: "",
+                Year: !bibJSON.entryTags.year ? "" : bibJSON.entryTags.year,
+                Type: bibJSON.entryTags.type ? bibJSON.entryTags.type : "",
+                Topic: bibJSON.entryTags.topic ? bibJSON.entryTags.topic : "",
+                Key: bibJSON.citationKey ? bibJSON.citationKey : "",
+              });
+              const titleExist = await Publication.findOne({
+                Key: bibJSON.citationKey,
+              });
+              if (!titleExist) {
+                newArticle = await publication.save();
+                resolve(newArticle);
+              } else {
+                reject("Title already exists");
+              }
             });
-            const titleExist = await Publication.findOne({
-              Key: bibJSON.citationKey,
-            });
-            if (!titleExist) {
-              newArticle = await publication.save();
-              resolve(newArticle);
-            } else {
-              reject("Title already exists");
-            }
-          });
+          } catch (e) {
+            reject(e);
+          }
         });
       })
     );
