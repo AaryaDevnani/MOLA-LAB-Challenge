@@ -45,7 +45,7 @@ router.post("/files", async (req, res) => {
             bibsParsed.forEach(async (bibJSON) => {
               let journal = "";
               if (!bibJSON.entryTags.publisher && !bibJSON.entryTags.journal) {
-                journal = " ";
+                journal = "";
               } else if (!bibJSON.entryTags.journal) {
                 journal = bibJSON.entryTags.publisher;
               } else {
