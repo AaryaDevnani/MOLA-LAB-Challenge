@@ -4,7 +4,7 @@
 
 - The website has been containerized using docker. The link for it's docker container is available [here](https://hub.docker.com/r/aaryadevnani/mola)
 
-- It is hosted on GCP, and can be viewed [here](https://mola-lab-challenge-dnkwjouc7q-uc.a.run.app/)
+- It is hosted on GCP, and can be viewed [here](https://mola-lab-challenge-dnkwjouc7q-uc.a.run.app/) - GCP instance down due to 0 credits.
 
 - CI/CD has been done via GitHub Actions. Any push to the master branch will generate a new build.
 
